@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'profile.dart';
-import 'home.dart';
+import 'myRecipes.dart';
 
 class HomeScreen extends StatefulWidget
 {
@@ -13,7 +13,7 @@ class HomeScreenStatefulState extends State<HomeScreen>
   	int currentNavIndex = 1;
 	  
   	final List<Widget> navOptions = [
-		  HomeWidget(),
+		  MyRecipesWidget(),
 		  ProfileWidget(),
   	];
 
@@ -22,7 +22,7 @@ class HomeScreenStatefulState extends State<HomeScreen>
   	@override
   	Widget build(BuildContext context) {
 		return Scaffold(
-			appBar: AppBar(title: const Text('Sample')),
+			appBar: AppBar(title: const Text('Receitas'), centerTitle: true),
 			body: navOptions[currentNavIndex],
 			bottomNavigationBar: BottomNavigationBar(
 				type: BottomNavigationBarType.fixed,
@@ -30,10 +30,6 @@ class HomeScreenStatefulState extends State<HomeScreen>
 				selectedItemColor: Colors.amber[800],
 				onTap: onNavItemTap,
 				items: const <BottomNavigationBarItem>[
-					BottomNavigationBarItem(
-						icon: Icon(Icons.room_service),
-						label: 'Feed',
-					),
 					BottomNavigationBarItem(
 						icon: Icon(Icons.collections_bookmark),
 						label: 'Biblioteca',

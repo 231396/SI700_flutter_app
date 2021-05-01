@@ -15,7 +15,7 @@ class LoginWidgetState extends State<LoginWidget>
 	bool showPassword = false;
 
 	@override
-	Widget build(BuildContext context) => Form(
+	Widget build(BuildContext context) => SingleChildScrollView(child: Form(
 		key: formKeyLogin,
 		child: Container(
 			height: 550,
@@ -32,7 +32,7 @@ class LoginWidgetState extends State<LoginWidget>
 				],
 			)
 		),
-	);
+	));
 
 	Widget submitBtn(String btnText, GlobalKey<FormState> formKey) => Container(
 		padding: EdgeInsets.symmetric(vertical: 25.0),
@@ -45,9 +45,10 @@ class LoginWidgetState extends State<LoginWidget>
 				shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
 			),
 			onPressed: () {
-				Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-				if (formKey.currentState.validate())
-					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Tentando Logar...')));
+				if (formKey.currentState.validate()){
+					Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logando')));
+				}
 				else
 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Invalido')));
 			},

@@ -1,47 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
 
-class RecipeCreateScreen extends StatefulWidget
+class RecipeEditScreen extends StatefulWidget
 {
 	final SingleRecipe recipe;
+	final bool isNewRecipe;
 
-	RecipeCreateScreen({this.recipe});
+
+	RecipeEditScreen({this.recipe, this.isNewRecipe = false});
 
 	@override
-	RecipeCreateScreenState createState() => RecipeCreateScreenState(recipe: recipe);
+	RecipeEditScreenState createState() => RecipeEditScreenState(recipe: recipe, isNewRecipe: isNewRecipe);
 }
 
-class RecipeCreateScreenState extends State<RecipeCreateScreen>
+class RecipeEditScreenState extends State<RecipeEditScreen>
 {
 	final formKey = GlobalKey<FormState>();
 
-	SingleRecipe recipe;
+	final urlFieldController = TextEditingController();
 
-	RecipeCreateScreenState({this.recipe}){
-		if(recipe == null)
-			recipe = new SingleRecipe();
-	}
+	final SingleRecipe recipe;
+	final bool isNewRecipe;
+
+	RecipeEditScreenState({this.recipe, this.isNewRecipe = false});
 
 	@override
 	Widget build(BuildContext context)
 	{ 
+		urlFieldController.text = recipe.imagesUrl;
 		return Scaffold(
 			appBar: AppBar(
-				title: Text("Create Recipe"),
+				title: Text("Editando Receita"),
 			),
 			body: Container(
 				padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
-				child: SingleChildScrollView(child: Column(
+				child: SingleChildScrollView(child: Form (key: formKey, child: Column(
 					mainAxisAlignment: MainAxisAlignment.start,
 					children:[
 						Image.network(recipe.imagesUrl,
-							errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-								return Text('Imagem não pode ser carregada', style: TextStyle(color: Colors.red));
-							},
+							width: 250,
+							height: 250,
+							errorBuilder: imageErrorHandler,
 						),
 						SizedBox(height: 20),
 						TextFormField(
+							controller: urlFieldController,
 							// onChanged: (str) => _url = recipe.imagesUrl,
+							// initialValue: _recipe.imagesUrl,
 							keyboardType: TextInputType.url,
 							style: TextStyle(color: Colors.blue[900]),
 							decoration: InputDecoration(
@@ -59,6 +64,7 @@ class RecipeCreateScreenState extends State<RecipeCreateScreen>
 						),
 						SizedBox(height: 20),
 						TextFormField(
+							initialValue: recipe.recipeTitle,
 							onChanged: (str) => recipe.recipeTitle = str,
 							maxLength: 30,
 							keyboardType: TextInputType.text,
@@ -78,6 +84,7 @@ class RecipeCreateScreenState extends State<RecipeCreateScreen>
 						),
 						SizedBox(height: 15),
 						TextFormField(
+							initialValue: recipe.description,
 							onChanged: (str) => recipe.description = str,
 							keyboardType: TextInputType.multiline,
   							maxLines: null,
@@ -101,29 +108,35 @@ class RecipeCreateScreenState extends State<RecipeCreateScreen>
 							children: [
 								ElevatedButton(
 									child: Text("Salvar"),
-									onPressed: OnSave,
+									onPressed: onSave,
 								),
 								ElevatedButton(
 									child: Icon(Icons.update), 
-									onPressed: Update,
+									onPressed: redraw,
 								),
 							],
 						)
 					],
 				))
-			)
+			))
 		);
 	}
 
-	void Update()
-	{
-		// print(_url);
-		// setState(() => recipe.imagesUrl = _url);
+	@override
+	void dispose() {
+		urlFieldController.dispose();
+		super.dispose();
 	}
 
-	void OnSave()
+	void redraw()
 	{
+		// print(_url);
+		setState(() => recipe.imagesUrl = urlFieldController.text);
+	}
 
+	void onSave()
+	{
+		ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Enviando ao servidor')));
 	}
 
 }
