@@ -15,7 +15,7 @@ class LoginSingupScreen extends StatelessWidget
 				backgroundColor: Colors.transparent,
 				appBar: AppBar(
 					centerTitle: true,
-					title: Text("Receitas de Bolo"),
+					title: Text("Receitas Ínicio"),
 					bottom: TabBar(
 						tabs: [
 							Tab(child: Text("Logar", style: tabTextStyle)),

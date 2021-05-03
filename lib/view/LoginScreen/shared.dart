@@ -87,6 +87,7 @@ Widget emailField() =>  Column(
 	],
 );
 
+
 const hintTextStyle = TextStyle(
 	color: Colors.white54,
 );

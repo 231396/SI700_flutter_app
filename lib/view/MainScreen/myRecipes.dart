@@ -48,7 +48,7 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 		itemCount: recipes.length,
 		separatorBuilder: (BuildContext context, int index) => const Divider(),
 		itemBuilder: (BuildContext context, int index) => GestureDetector(
-			onTap: () => showRecipeDialog(context, recipes[index]),
+			onTap: () => showRecipeDialog(recipes[index]),
 			child: Container(
 				height: 75,
 				decoration: BoxDecoration(
@@ -77,7 +77,7 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 		),
 	);
 
-	Future<void> showRecipeDialog(BuildContext context, SingleRecipe recipe) async 
+	Future<void> showRecipeDialog(SingleRecipe recipe) async 
 	{
 		return showDialog<void>(
 			context: context,
@@ -94,9 +94,12 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 						),
 						TextButton(
 							child: Text('Editar'),
-							onPressed: () {
+							onPressed: () async {
 								Navigator.of(context).pop();
-								Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe: recipe)));
+								final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe: recipe)));
+								
+								if(result == true)
+									setState(() => recipes.remove(recipe));
 							},
 						),
 					],

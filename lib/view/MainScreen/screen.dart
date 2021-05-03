@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'profile.dart';
 import 'myRecipes.dart';
+import 'searchRecipe.dart';
 
 class HomeScreen extends StatefulWidget
 {
@@ -13,6 +14,7 @@ class HomeScreenStatefulState extends State<HomeScreen>
   	int currentNavIndex = 1;
 	  
   	final List<Widget> navOptions = [
+		  SeacrhRecipesWidget(),
 		  MyRecipesWidget(),
 		  ProfileWidget(),
   	];
@@ -30,6 +32,10 @@ class HomeScreenStatefulState extends State<HomeScreen>
 				selectedItemColor: Colors.amber[800],
 				onTap: onNavItemTap,
 				items: const <BottomNavigationBarItem>[
+					BottomNavigationBarItem(
+						icon: Icon(Icons.search),
+						label: 'Pesquisar',
+					),
 					BottomNavigationBarItem(
 						icon: Icon(Icons.collections_bookmark),
 						label: 'Biblioteca',
