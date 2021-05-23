@@ -47,34 +47,28 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 		padding: const EdgeInsets.all(8),
 		itemCount: recipes.length,
 		separatorBuilder: (BuildContext context, int index) => const Divider(),
-		itemBuilder: (BuildContext context, int index) => GestureDetector(
-			onTap: () => showRecipeDialog(recipes[index]),
-			child: Container(
-				height: 75,
-				decoration: BoxDecoration(
-					color: Colors.yellow[700],
-					borderRadius: BorderRadius.all(Radius.circular(8.0)),
+		itemBuilder: (BuildContext context, int index) => Container(
+			padding: EdgeInsets.only(top: 10, left: 10),
+			height: 75,
+			decoration: BoxDecoration(
+				color: Colors.yellow[700],
+				borderRadius: BorderRadius.all(Radius.circular(8.0)),
+			),
+			child: ListTile(
+				leading: ClipRRect(
+					borderRadius: BorderRadius.circular(10.0),
+					child: Image.network(
+						recipes[index].imagesUrl, 
+						width: 50, 
+						height: 50,
+						fit: BoxFit.cover, 
+						errorBuilder: imageErrorHandler
+					),
 				),
-				child: Row(
-						children: [
-							Padding(
-								padding: EdgeInsets.symmetric(horizontal: 15), 
-								child: ClipRRect(
-    								borderRadius: BorderRadius.circular(10.0),
-									child: Image.network(
-										recipes[index].imagesUrl, 
-										width: 50, 
-										height: 50,
-										fit: BoxFit.cover, 
-										errorBuilder: imageErrorHandler
-									),
-								)
-							),
-							Text("${recipes[index].recipeTitle}", style: TextStyle(fontSize: 24), overflow: TextOverflow.ellipsis),
-						],
-					)
-			)
-		),
+				title: Text("${recipes[index].recipeTitle}", style: TextStyle(fontSize: 24), overflow: TextOverflow.ellipsis),
+				onTap: () => showRecipeDialog(recipes[index]),
+				),
+			),
 	);
 
 	Future<void> showRecipeDialog(SingleRecipe recipe) async 

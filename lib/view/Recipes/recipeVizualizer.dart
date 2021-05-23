@@ -40,6 +40,11 @@ class RecipeVizualizerScreen extends StatelessWidget
 								style: TextStyle(fontSize: 16.0),
 							),
 						),
+						Container(
+							padding: const EdgeInsets.all(10.0),
+							alignment: Alignment.centerLeft,
+							child: Text("ID: ${recipe.recipeID}"),
+						),
 					],
 				))
 			)
