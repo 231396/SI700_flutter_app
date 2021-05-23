@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/view/MainScreen/screen.dart';
 import 'shared.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -46,7 +45,7 @@ class LoginWidgetState extends State<LoginWidget>
 			),
 			onPressed: () {
 				if (formKey.currentState.validate()){
-					Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+					//Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logando')));
 				}
 				else
