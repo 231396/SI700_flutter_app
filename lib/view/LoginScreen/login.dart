@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'shared.dart';
+import 'package:flutter_app/view/MainScreen/profile.dart';
 
 class LoginWidget extends StatefulWidget {
 	@override
@@ -45,7 +46,7 @@ class LoginWidgetState extends State<LoginWidget>
 			),
 			onPressed: () {
 				if (formKey.currentState.validate()){
-					//Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+					Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileWidget()));
 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logando')));
 				}
 				else

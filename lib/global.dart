@@ -10,20 +10,3 @@ String basicValidator(String str){
 		return 'Campo em branco';
     return null;
 }
-
-Widget imageErrorHandler(BuildContext context, Object exception, StackTrace stackTrace)
-{
-	return const Icon(Icons.insert_drive_file, size: 40,);
-	//return const Text('Imagem não pode ser carregada', style: TextStyle(color: Colors.red));
-}
-
-class SingleRecipe
-{
-	String recipeID;
-	String imagesUrl;
-	String recipeTitle;
-
-	String description;
-
-	SingleRecipe({this.recipeID = "", this.imagesUrl = "", this.recipeTitle = "", this.description = ""});
-}
