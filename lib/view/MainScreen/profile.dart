@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/person.dart';
 import 'package:flutter_app/view/LoginScreen/screen.dart';
 
 class ProfileWidget extends StatelessWidget 
 {
+	final Person person;
+
+  	ProfileWidget({@required this.person}) : super();
+
 	@override
 	Widget build(BuildContext context) => Scaffold(body: Container(
 		width: double.infinity,

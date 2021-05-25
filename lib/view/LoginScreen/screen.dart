@@ -30,7 +30,7 @@ class LoginSingupScreen extends StatelessWidget
 					],
 				),
 			),
-		)
+		),
 	);
 
 	final containerBackground = BoxDecoration(

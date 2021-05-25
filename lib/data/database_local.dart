@@ -4,10 +4,10 @@ import 'package:flutter_app/model/person.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseLocalServer {
+class DatabaseLocal {
 	/* Singleton */
-	static DatabaseLocalServer helper = DatabaseLocalServer._createInstance();
-	DatabaseLocalServer._createInstance();
+	static DatabaseLocal helper = DatabaseLocal._createInstance();
+	DatabaseLocal._createInstance();
 
 	static Database _database;
 
@@ -37,21 +37,22 @@ class DatabaseLocalServer {
 	_createDb(Database db, int newVersion) async {
 		await db.execute("CREATE TABLE $personTable ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colName TEXT, $colEmail TEXT, $colGender TEXT, $colPassword TEXT)");
 	}
-
+	
+	//#region PersonDB 
 	// INSERT
-	Future<int> insertPerson(Person note) async {
+	Future<int> insertPerson(Person person) async {
 		Database db = await this.database;
-		int result = await db.insert(personTable, note.toMap());
+		int result = await db.insert(personTable, person.toTableMap());
 		notify();
 		return result;
 	}
 
 	// UPDATE
-	Future<int> updateNote(Person person) async {
+	Future<int> updatePerson(Person person) async {
 		Database db = await this.database;
 		var result = await db.update(
 			personTable,
-			person.toMap(),
+			person.toTableMap(),
 			where: "$colId = ?",
 			whereArgs: [person.id],
 		);
@@ -60,7 +61,7 @@ class DatabaseLocalServer {
 	}
 
 	// DELETE
-	Future<int> deleteNote(int id) async {
+	Future<int> deletePerson(int id) async {
 		Database db = await this.database;
 		int result = await db.rawDelete("DELETE FROM $personTable WHERE $colId=$id");
 		notify();
@@ -73,18 +74,25 @@ class DatabaseLocalServer {
 		var query = await db.rawQuery("SELECT * FROM $personTable");
 
 		List<Person> list = [];
-
 		for (int i = 0; i < query.length; i++)
 			list.add(new Person.fromMap(query[i]));
 		return list;
 	}
 
-	Future<Person> getSinglePerson(int id) async {
+	Future<Person> getPersonByLogin(String email, String password) async {
+		Database db = await this.database;
+		var query = await db.rawQuery("SELECT * FROM $personTable WHERE $colEmail=$email AND $colName=$password");
+
+		return (query.length > 0) ? Person.fromMap(query[0]) : null;
+	}
+
+	Future<Person> getPersonByID(int id) async {
 		Database db = await this.database;
 		var query = await db.rawQuery("SELECT * FROM $personTable WHERE $colId=$id");
 		
 		return (query.length > 0) ? Person.fromMap(query[0]) : null;
 	}
+	//#endregion
 
 	/* STREAM */
 	void notify() async {
@@ -95,9 +103,8 @@ class DatabaseLocalServer {
 	}
 
 	Stream get stream {
-		if (_controller == null) {
+		if (_controller == null)
 			_controller = StreamController();
-		}
 		return _controller.stream.asBroadcastStream();
 	}
 

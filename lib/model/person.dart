@@ -33,12 +33,29 @@ class Person
 			this._gender = str;
 	}
 	
+	Person(){
+		_id = -1;
+		_name = "";
+		_email= "";
+		_password= "";
+		_gender = "";
+	}
+
 	Person.fromMap(Map<String, Object> map) {
 		this._id = map["id"];
 		this._name = map["name"];
 		this._email = map["email"];
 		this._password = map["password"];
 		this._gender = map["gender"];
+	}
+
+	Map<String, Object> toTableMap() {
+		var map = new Map<String, Object>();
+		map["name"] = _name;
+		map["email"] = _email;
+		map["password"] = _password;
+		map["gender"] = _gender;
+		return map;
 	}
 
 	Map<String, Object> toMap() {
