@@ -9,7 +9,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 	@override
 	Stream<LoginState> mapEventToState(LoginEvent event) async* {
-		var loginPerson = await DatabaseLocal.helper.getPersonByLogin(event.person.email, event.person.email);
+		var loginPerson = await DatabaseLocal.helper.getPersonByLogin(event.person.email, event.person.password);
 		if(loginPerson.length > 0)
 			yield new LoginSucessState(person: loginPerson[0]);
 		else
