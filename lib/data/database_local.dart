@@ -27,24 +27,23 @@ class DatabaseLocal {
 	Future<Database> initializeDatabase() async {
 		String dbPath = await getDatabasesPath();
 		String path = dbPath + dbName + ".db";
-		Database notesDatabase = await openDatabase(path, version: 1, onCreate: _createDb);
-		return notesDatabase;
+		return await openDatabase(path, version: 1, onCreate: _createDb);
 	}
 
-	_createDb(Database db, int newVersion) async {
+	FutureOr<void> _createDb(Database db, int newVersion) async {
 		await db.execute("CREATE TABLE $personTable ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colName TEXT, $colEmail TEXT, $colGender TEXT, $colPassword TEXT)");
 	}
 	
 	//#region PersonDB 
 	// INSERT
 	Future<int> insertPerson(Person person) async {
-		Database db = await this.database;
+		final Database db = await this.database;
 		return await db.insert(personTable, person.toMap());
 	}
 
 	// UPDATE
 	Future<int> updatePerson(Person person) async {
-		Database db = await this.database;
+		final Database db = await this.database;
 		return await db.update(
 			personTable,
 			person.toMap(),
@@ -55,13 +54,13 @@ class DatabaseLocal {
 
 	// DELETE
 	Future<int> deletePerson(int id) async {
-		Database db = await this.database;
+		final Database db = await this.database;
 		return await db.rawDelete("DELETE FROM $personTable WHERE $colId=$id");
 	}
 
 	/* QUERYS */
 	Future<List<Person>> getAllPerson() async {
-		Database db = await this.database;
+		final Database db = await this.database;
 		var query = await db.rawQuery("SELECT * FROM $personTable");
 
 		List<Person> list = [];
@@ -71,7 +70,7 @@ class DatabaseLocal {
 	}
 
 	Future<List<Person>> getPersonByLogin(String email, String password) async {
-		Database db = await this.database;
+		final Database db = await this.database;
 		var query = await db.rawQuery("SELECT * FROM $personTable WHERE $colEmail=$email AND $colName=$password");
 
 		List<Person> list = [];
@@ -81,7 +80,7 @@ class DatabaseLocal {
 	}
 
 	Future<Person> getPersonByID(int id) async {
-		Database db = await this.database;
+		final Database db = await this.database;
 		var query = await db.rawQuery("SELECT * FROM $personTable WHERE $colId=$id");
 		
 		return (query.length > 0) ? Person.fromMap(query[0]) : null;
