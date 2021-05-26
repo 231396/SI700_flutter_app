@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/view/LoginScreen/screen.dart';
 
-void main() => runApp(MainApp());
+void main() async {
+	runApp(MainApp());
+}
 
 class MainApp extends StatelessWidget {
 	@override

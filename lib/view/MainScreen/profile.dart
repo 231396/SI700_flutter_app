@@ -25,11 +25,11 @@ class ProfileWidget extends StatelessWidget
 			mainAxisAlignment: MainAxisAlignment.center,
 			crossAxisAlignment: CrossAxisAlignment.center,
 			children:[
-				boxedText("Nome", "Andre Sacilotto"),
+				boxedText("Nome", "${person.name}"),
 				SizedBox(height: 30.0),
-				boxedText("Email", "andresample@mail.com"),
+				boxedText("Email", "${person.email}"),
 				SizedBox(height: 30.0),
-				boxedText("Sexo", "M"),
+				boxedText("Sexo", "${person.gender}"),
 				SizedBox(height: 30.0),
 				ElevatedButton(
 					onPressed: () => logout(context), 
@@ -45,7 +45,6 @@ class ProfileWidget extends StatelessWidget
 
 	void logout(BuildContext context){
 		Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginSingupScreen()));
-		//REMOVE FROM LOCAL SAVE
 	}
 
 	Widget boxedText(String title, String text) => Column(

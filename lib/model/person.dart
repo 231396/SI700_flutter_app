@@ -1,3 +1,5 @@
+import 'package:flutter_app/data/database_local.dart';
+
 class Person 
 {
 	int _id;
@@ -34,7 +36,7 @@ class Person
 	}
 	
 	Person(){
-		_id = -1;
+		_id = null;
 		_name = "";
 		_email= "";
 		_password= "";
@@ -42,29 +44,24 @@ class Person
 	}
 
 	Person.fromMap(Map<String, Object> map) {
-		this._id = map["id"];
-		this._name = map["name"];
-		this._email = map["email"];
-		this._password = map["password"];
-		this._gender = map["gender"];
-	}
-
-	Map<String, Object> toTableMap() {
-		var map = new Map<String, Object>();
-		map["name"] = _name;
-		map["email"] = _email;
-		map["password"] = _password;
-		map["gender"] = _gender;
-		return map;
+		this._id = map[DatabaseLocal.colId];
+		this._name = map[DatabaseLocal.colName];
+		this._email = map[DatabaseLocal.colEmail];
+		this._password = map[DatabaseLocal.colPassword];
+		this._gender = map[DatabaseLocal.colGender];
 	}
 
 	Map<String, Object> toMap() {
-		var map = new Map<String, Object>();
-		map["id"] = _id;
-		map["name"] = _name;
-		map["email"] = _email;
-		map["password"] = _password;
-		map["gender"] = _gender;
+		var map = <String, Object>{
+			DatabaseLocal.colName: _name,
+			DatabaseLocal.colEmail: _email,
+			DatabaseLocal.colPassword: _password,
+			DatabaseLocal.colGender: _gender,
+		};
+		if(_id != null)
+			map[DatabaseLocal.colId] = _id;
 		return map;
 	}
+
+	void printPerson() => print("[ $_id, $_name, $_email, $_password, $_gender ]");
 }

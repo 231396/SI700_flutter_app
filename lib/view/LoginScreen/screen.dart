@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
+import 'package:flutter_app/logic/login/login_bloc.dart';
+import 'package:flutter_app/logic/singup/singup_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'login.dart';
 import 'singup.dart';
 
@@ -25,8 +28,14 @@ class LoginSingupScreen extends StatelessWidget
 				),
 				body: TabBarView(
 					children: [
-						LoginWidget(),
-						SingupWidget(),
+						BlocProvider(
+							create: (context) => LoginBloc(),
+							child: LoginWidget()
+						),
+						BlocProvider(
+							create: (context) => SingupBloc(),
+							child: SingupWidget()
+						),
 					],
 				),
 			),

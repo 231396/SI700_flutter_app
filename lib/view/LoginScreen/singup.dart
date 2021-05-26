@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/logic/singup/singup_bloc.dart';
+import 'package:flutter_app/logic/singup/singup_bloc_event.dart';
+import 'package:flutter_app/logic/singup/singup_bloc_state.dart';
 import 'package:flutter_app/model/person.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'shared.dart';
 
 class SingupWidget extends StatefulWidget {
@@ -40,7 +44,7 @@ class SingupWidgetState extends State<SingupWidget>
 							genderDropdown((value) => person.gender = value),
 							SizedBox(height: 30.0),
 							passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => person.password = value),
-							// submitBtn()
+							submitBtn()
 						],
 					)
 				),
@@ -48,38 +52,44 @@ class SingupWidgetState extends State<SingupWidget>
 		);
 	}
 
-	// Widget submitBtn() => Container(
-	// 	padding: EdgeInsets.symmetric(vertical: 25.0),
-	// 	width: double.infinity,
-	// 	child: BlocListener<LoginScreenBloc, LoginScreenState>(
-	// 		listener: (context, state) {
-	// 			// if(state is LoginScreenSingupState && state.person != null)
-	// 			// 	ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
-
-	// 			return ElevatedButton(
-	// 				style: ElevatedButton.styleFrom(
-	// 					elevation: 5,
-	// 					primary: Colors.white,
-	// 					padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-	// 					shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-	// 				),
-	// 				onPressed: () {
-	// 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Tentando Cadastrar...')));
-	// 					if (formKeySingup.currentState.validate()){
-	// 						formKeySingup.currentState.save();
-	// 						BlocProvider.of<LoginScreenBloc>(context).add(SingupEvent(person: person));
-	// 					}
-	// 					else
-	// 						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastro Invalido')));
-	// 				},
-	// 				child: Text(
-	// 					"Cadastrar", 
-	// 					style: submitButtonStyle
-	// 				),
-	// 			);
-	// 		}
-	// 	),
-	// );
+	Widget submitBtn() => Container(
+		padding: EdgeInsets.symmetric(vertical: 25.0),
+		width: double.infinity,
+		child: BlocListener<SingupBloc, SingupState>(
+			listener: (context, state) {
+				if(state is SingupSucessState)
+				{
+					state.person.printPerson();
+					ScaffoldMessenger.of(context).hideCurrentSnackBar();
+					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
+				}
+				else if (state is SingupFailState){
+					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Falha ao Cadastrar')));
+				}
+			},
+			child: ElevatedButton(
+					style: ElevatedButton.styleFrom(
+						elevation: 5,
+						primary: Colors.white,
+						padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+						shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+					),
+					onPressed: () {
+						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Tentando Cadastrar...')));
+						if (formKeySingup.currentState.validate()){
+							formKeySingup.currentState.save();
+							BlocProvider.of<SingupBloc>(context).add(SingupEvent(person: person));
+						}
+						else
+							ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastro Invalido')));
+					},
+					child: Text(
+						"Cadastrar", 
+						style: submitButtonStyle
+					),
+			),
+		),
+	);
 
 	Widget genderDropdown(Function(String) onSave) => Row(
 		mainAxisAlignment: MainAxisAlignment.start,
