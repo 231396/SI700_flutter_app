@@ -71,7 +71,7 @@ class DatabaseLocal {
 
 	Future<List<Person>> getPersonByLogin(String email, String password) async {
 		final Database db = await this.database;
-		var query = await db.rawQuery("SELECT * FROM $personTable WHERE $colEmail=$email AND $colName=$password");
+		var query = await db.rawQuery("SELECT * FROM $personTable WHERE $colEmail=$email AND $colPassword=$password");
 
 		List<Person> list = [];
 		for (int i = 0; i < query.length; i++)
