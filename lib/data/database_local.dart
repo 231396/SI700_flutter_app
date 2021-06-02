@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter_app/model/person.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseLocal {
+class DatabaseWebServer {
 	/* Singleton */
-	static final DatabaseLocal helper = DatabaseLocal._createInstance();
-	DatabaseLocal._createInstance();
+	static final DatabaseWebServer helper = DatabaseWebServer._createInstance();
+	DatabaseWebServer._createInstance();
 
 	static Database _database;
 
