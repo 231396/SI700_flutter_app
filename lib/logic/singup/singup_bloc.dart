@@ -1,5 +1,5 @@
 
-import 'package:flutter_app/data/database_local.dart';
+import 'package:flutter_app/data/database_web_server.dart';
 import 'package:flutter_app/logic/singup/singup_bloc_event.dart';
 import 'package:flutter_app/logic/singup/singup_bloc_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,14 +9,14 @@ class SingupBloc extends Bloc<SingupEvent, SingupState> {
 
 	@override
 	Stream<SingupState> mapEventToState(SingupEvent event) async* {
-		var personList = await DatabaseLocal.helper.getAllPerson();
+		var personList = await DatabaseWebServer.helper.getAllPerson();
 		bool exist = false;
 		for (var i = 0; i < personList.length; i++) {
 			if(personList[i].email == event.person.email)
 				exist = true;
 		}
 		if(!exist){
-			await DatabaseLocal.helper.insertPerson(event.person);
+			await DatabaseWebServer.helper.insertPerson(event.person);
 			yield new SingupSucessState(person: event.person);
 		}
 		else

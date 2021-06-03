@@ -1,7 +1,11 @@
-import 'package:flutter_app/data/database_local.dart';
-
 class Person 
 {
+	static const String ID = "id";
+	static const String NAME = "name";
+	static const String EMAIL = "email";
+	static const String GENDER = "gender";
+	static const String PASSWORD = "password";
+
 	int _id;
 	String _name;
 	String _email;
@@ -36,30 +40,30 @@ class Person
 	}
 	
 	Person(){
-		_id = null;
+		_id = -1;
 		_name = "";
 		_email= "";
 		_password= "";
 		_gender = "";
 	}
 
-	Person.fromMap(Map<String, Object> map) {
-		this._id = map[DatabaseLocal.colId];
-		this._name = map[DatabaseLocal.colName];
-		this._email = map[DatabaseLocal.colEmail];
-		this._password = map[DatabaseLocal.colPassword];
-		this._gender = map[DatabaseLocal.colGender];
+	Person.fromJson(Map<String, Object> map) {
+		_id = map[ID];
+		_name = map[NAME];
+		_email = map[EMAIL];
+		_password = map[PASSWORD];
+		_gender = map[GENDER];
 	}
 
-	Map<String, Object> toMap() {
+	Map<String, Object> toJson() {
 		var map = <String, Object>{
-			DatabaseLocal.colName: _name,
-			DatabaseLocal.colEmail: _email,
-			DatabaseLocal.colPassword: _password,
-			DatabaseLocal.colGender: _gender,
+			NAME: _name,
+			EMAIL: _email,
+			PASSWORD: _password,
+			GENDER: _gender,
 		};
-		if(_id != null)
-			map[DatabaseLocal.colId] = _id;
+		if(_id > -1)
+			map[ID] = _id;
 		return map;
 	}
 

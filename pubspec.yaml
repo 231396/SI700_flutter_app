@@ -31,8 +31,8 @@ dependencies:
   #BLOC
   bloc: 7.0.0
   flutter_bloc: 7.0.0
-  #SQL
-  sqflite: ^2.0.0+3
+  #DIO
+  dio: ^4.0.0
 
 dev_dependencies:
   flutter_test:

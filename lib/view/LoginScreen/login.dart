@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/database_local.dart';
+import 'package:flutter_app/data/database_web_server.dart';
 import 'package:flutter_app/logic/login/login_bloc.dart';
 import 'package:flutter_app/logic/login/login_bloc_event.dart';
 import 'package:flutter_app/logic/login/login_bloc_state.dart';
@@ -25,7 +25,7 @@ class LoginWidgetState extends State<LoginWidget>
 	@override
 	void initState(){
 		super.initState();
-		DatabaseLocal.helper.getAllPerson().then((value) {
+		DatabaseWebServer.helper.getAllPerson().then((value) {
 			print(value.length);
 			for (var i = 0; i < value.length; i++) 
 				value[i].printPerson();
