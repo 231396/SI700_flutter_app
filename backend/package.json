@@ -1,5 +1,5 @@
 {
-  "name": "si700-2021-1st-backend-",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   },
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",

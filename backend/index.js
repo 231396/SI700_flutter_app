@@ -1,3 +1,4 @@
+import Person from './person.js';
 import express, { json } from 'express';
 import cors from "cors";
 const app = express();
@@ -6,76 +7,86 @@ app.use(json());
 app.use(cors());
 app.listen(3000);
 
-
-app.get('/', function(req, res){res.send('Home')});
-
-/*
-  Servidor propriamente dito
-*/
-
-const notes = [
-    {id: 0, title: "Vinícius Nonato Rodrigues", description : "Aluno da Unicamp feliz"},
-    {id: 1, title: "Carolina da Silva Sancho", description : "Aluna da Unicamp não tão feliz"}
-]
-
-const endpoint = "/notes";
-
-app.get(endpoint, function(req, res){
-    res.send(notes.filter(Boolean));
+app.get('/', (req, res) => {
+	res.send('Test');
+	console.log("Test");
 });
 
-app.get(`${endpoint}/:id`, function(req, res){
-    const id = req.params.id;
-    const note = notes[id];
+const persons = [ new Person(), new Person() ]
 
-    if (!note){
-        res.send("{}");
-    } else {
-        res.send(note);
-    }   
-});
+var p1 = persons[0];
+p1.name = "Andre";
+p1.email = "@@";
+p1.password = "123";
+p1.gender = "M";
 
+var p2 = persons[1];
+p2.name = "Jau";
+p2.email = "email@.com";
+p2.password = "abc";
+p2.gender = "F";
+
+const endpoint = "/person";
+
+//ADD
 app.post(endpoint, (req, res) => {
-    const note = {
-        id : notes.length,
-        title : req.body["title"],
-        description : req.body["description"]
-    };
-    notes.push(note);
-    res.send("Recebido");
+	const person = new Person();
+	person.fromJson(req.body);
+    persons.push(note);
+    res.send("Inserido");
 });
 
-app.put(`${endpoint}/:id`, (req, res) =>{
+//UPDATE
+app.put(`${endpoint}/:id`, (req, res) => {
     const id = parseInt(req.params.id);
-    const note = {
-        id : id,
-        title : req.body["title"],
-        description : req.body["description"]
-    };
-
-    notes[id] = note;
-    res.send("Recebido");
+	const person = new Person();
+	person.fromJson(req.body);
+	if(id >= 0 && id < persons.length){
+		persons[id] = person;
+		res.send("Atualizado");
+	} else{
+		res.send("Falha");
+	}
 });
 
+//DELETE
 app.delete(`${endpoint}/:id`, (req, res) => {
-    const id = req.params.id;
-    delete notes[id];
-    res.send("Recebido");
+    const id = parseInt(req.params.id);
+
+	if(id >= 0 && id < persons.length){
+		delete persons[id];
+		res.send("Deletado");
+	} else{
+		res.send("Falha");
+	}
 });
 
+app.get(endpoint, (req, res) => {
+	var list = [];
+	for (let index = 0; index < persons.length; index++) {
+		list.push(persons[index].toJson(index));
+	}
+    res.send(list);
+});
 
-/*
-  Criar um socket para notificar usuários das mudanças.
-*/
+app.get(`${endpoint}/:id`, (req, res) => {
+    const id = parseInt(req.params.id);
+    const person = persons[id];
 
-// const server = require('http').createServer(app);
-// server.listen(process.env.PORT || 3000);
+    if (person)
+		res.send(person.toJson());
+    else
+		res.send("{}");
+});
 
-// const io = require('socket.io')(server);
+app.get(`${endpoint}/:email/:password`, (req, res) => {
+    const email = req.params.email;
+    const password = req.params.password;
 
-// Comunicação
-// const INVALIDATE = 'invalidate';
+	const person = persons.find((x) => x.email === email && x.password === password);
 
-// function notify(){
-//     io.sockets.emit(INVALIDATE, 1);
-// }
+    if (person)
+		res.send(person.toJson());
+    else
+        res.send("{}");
+});
