@@ -32,7 +32,7 @@ const endpoint = "/person";
 app.post(endpoint, (req, res) => {
 	const person = new Person();
 	person.fromJson(req.body);
-    persons.push(note);
+    persons.push(person);
     res.send("Inserido");
 });
 
@@ -61,6 +61,7 @@ app.delete(`${endpoint}/:id`, (req, res) => {
 	}
 });
 
+//#region GET
 app.get(endpoint, (req, res) => {
 	var list = [];
 	for (let index = 0; index < persons.length; index++) {
@@ -90,3 +91,4 @@ app.get(`${endpoint}/:email/:password`, (req, res) => {
     else
         res.send("{}");
 });
+//#endregion

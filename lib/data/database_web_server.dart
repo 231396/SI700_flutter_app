@@ -49,39 +49,33 @@ class DatabaseWebServer {
 			);
 		List<Person> list = [];
 		for (int i = 0; i < response.data.length; i++){
-			var data = jsonDecode(response.data[i]);
-			list.add(Person.fromJson(data));
+			list.add(Person.fromJson(response.data[i]));
 		}
 		return list;
 	}
 
-	Future<List<Person>> getPersonByLogin(String email, String password) async {
+	Future<Person> getPersonByLogin(String email, String password) async {
 		Response response = await _dio.get(databaseUrl + "/$email/$password",
 				options: Options(
 					headers: { "Accept": "application/json"}
 				),
 			);
-		List<Person> list = [];
-		for (int i = 0; i < response.data.length; i++){
-			var data = jsonDecode(response.data[i]);
-			list.add(Person.fromJson(data));
+		if(response.data is Map<String, dynamic>){
+			return Person.fromJson(response.data);
 		}
-		return list;
+		return null;
 	}
 
-	Future<List<Person>> getPersonByID(int id) async {
+	Future<Person> getPersonByID(int id) async {
 		Response response = await _dio.get(databaseUrl + "/$id",
 				options: Options(
 					headers: { "Accept": "application/json"}
 					),
 			);
-
-		List<Person> list = [];
-		for (int i = 0; i < response.data.length; i++){
-			var data = jsonDecode(response.data[i]);
-			list.add(Person.fromJson(data));
+		if(response.data is Map<String, dynamic>){
+			return Person.fromJson(response.data);
 		}
-		return list;
+		return null;
 	}
 	//#endregion
 }

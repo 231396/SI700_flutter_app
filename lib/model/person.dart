@@ -47,7 +47,7 @@ class Person
 		_gender = "";
 	}
 
-	Person.fromJson(Map<String, Object> map) {
+	Person.fromJson(Map<String, dynamic> map) {
 		_id = map[ID];
 		_name = map[NAME];
 		_email = map[EMAIL];
@@ -55,7 +55,7 @@ class Person
 		_gender = map[GENDER];
 	}
 
-	Map<String, Object> toJson() {
+	Map<String, dynamic> toJson() {
 		var map = <String, Object>{
 			NAME: _name,
 			EMAIL: _email,
