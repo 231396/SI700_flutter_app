@@ -22,15 +22,15 @@ class LoginWidgetState extends State<LoginWidget>
 	bool rememberMe = false;
 	bool showPassword = false;
 
-	@override
-	void initState(){
-		super.initState();
-		DatabaseWebServer.helper.getAllPerson().then((value) {
-			print(value.length);
-			for (var i = 0; i < value.length; i++) 
-				value[i].printPerson();
-		});
-	}
+	// @override
+	// void initState(){
+	// 	super.initState();
+	// 	DatabaseWebServer.helper.getAllPerson().then((value) {
+	// 		print(value.length);
+	// 		for (var i = 0; i < value.length; i++) 
+	// 			value[i].printPerson();
+	// 	});
+	// }
 
 	@override
 	Widget build(BuildContext context){
