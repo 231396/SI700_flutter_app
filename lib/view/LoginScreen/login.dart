@@ -28,13 +28,13 @@ class LoginWidgetState extends State<LoginWidget>
 					passwordField(showPassword: showPassword, onShowPasswordChange: (value) { setState(() => showPassword = value); }),
 					SizedBox(height: 10.0),
 					rememberMeCheckbox(),
-					submitBtn("Entrar", formKeyLogin)
+					submitBtn("Entrar")
 				],
 			)
 		),
 	));
 
-	Widget submitBtn(String btnText, GlobalKey<FormState> formKey) => Container(
+	Widget submitBtn(String btnText) => Container(
 		padding: EdgeInsets.symmetric(vertical: 25.0),
 		width: double.infinity,
 		child: ElevatedButton(
@@ -45,7 +45,7 @@ class LoginWidgetState extends State<LoginWidget>
 				shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
 			),
 			onPressed: () {
-				if (formKey.currentState.validate()){
+				if (formKeyLogin.currentState.validate()){
 					Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logando')));
 				}

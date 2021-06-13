@@ -26,4 +26,9 @@ class SingleRecipe
 	String description;
 
 	SingleRecipe({this.recipeID = "", this.imagesUrl = "", this.recipeTitle = "", this.description = ""});
+
+	void printRecipe(){
+		print(recipeID + " " + imagesUrl + " " + recipeTitle);
+		print(description);
+	}
 }

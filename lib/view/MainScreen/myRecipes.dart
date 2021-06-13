@@ -11,13 +11,22 @@ class MyRecipesWidget extends StatefulWidget {
 
 class MyRecipesWidgetState extends State<MyRecipesWidget> 
 {
-	static const defaultDescr = "1/2 xícara (chá) de óleo\r\n3 cenouras médias raladas\r\n4 ovos\r\n2 xícaras (chá) de açúcar\r\n2 e 1/2 xícaras (chá) de farinha de trigo\r\n1 colher (sopa) de fermento em pó";
+	// static const defaultDescr = "1/2 xícara (chá) de óleo\r\n3 cenouras médias raladas\r\n4 ovos\r\n2 xícaras (chá) de açúcar\r\n2 e 1/2 xícaras (chá) de farinha de trigo\r\n1 colher (sopa) de fermento em pó";
+	final recipes = <SingleRecipe>[];
+	// 	new SingleRecipe(recipeID: "0", imagesUrl: "https://picsum.photos/250?image=9", recipeTitle:  "Bolo de Cenoura", description: defaultDescr),
+	// 	new SingleRecipe(recipeID: "1", imagesUrl:"https://picsum.photos/250?image=7",recipeTitle: "Bolo de Pave", description: defaultDescr),
+	// 	new SingleRecipe(recipeID: "2", imagesUrl: "https://picsum.photos/250?image=6", recipeTitle: "Bolo Molhado", description: defaultDescr),
+	// ];
+	
+	@override
+	void initState() {
+		super.initState();
+		loadRecipes();
+	}
 
-	final recipes = <SingleRecipe>[
-		new SingleRecipe(recipeID: "0", imagesUrl: "https://picsum.photos/250?image=9", recipeTitle:  "Bolo de Cenoura", description: defaultDescr),
-		new SingleRecipe(recipeID: "1", imagesUrl:"https://picsum.photos/250?image=7",recipeTitle: "Bolo de Pave", description: defaultDescr),
-		new SingleRecipe(recipeID: "2", imagesUrl: "https://picsum.photos/250?image=6", recipeTitle: "Bolo Molhado", description: defaultDescr),
-	];
+	void loadRecipes(){
+		//TODO - GET RECIPES FROM DB
+	}
 
 	@override
 	Widget build(BuildContext context) 
@@ -28,9 +37,13 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 					listViewRecipesBuild(context, recipes),
 					ElevatedButton(
 						onPressed: () async {
-							var newRecipe = new SingleRecipe();
-							await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe: newRecipe, isNewRecipe: true)));
-							setState(() => recipes.add(newRecipe));
+							var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new SingleRecipe())));
+							print(result);
+							//setState(() => recipes.add(newRecipe));
+
+							if(result != null){
+								setState(loadRecipes);
+							}
 						},
 						child: Icon(Icons.add),
 						style: ElevatedButton.styleFrom(				
@@ -83,17 +96,18 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 							child: Text('Vizualizar'),
 							onPressed: () {
 								Navigator.of(context).pop();
-								Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe: recipe)));
+								Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe)));
 							},
 						),
 						TextButton(
 							child: Text('Editar'),
 							onPressed: () async {
 								Navigator.of(context).pop();
-								final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe: recipe)));
-								
-								if(result == true)
-									setState(() => recipes.remove(recipe));
+								final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe)));
+								print(result);
+								if(result != null){
+									setState(loadRecipes);
+								}
 							},
 						),
 					],

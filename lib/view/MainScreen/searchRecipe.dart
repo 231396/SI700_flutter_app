@@ -51,8 +51,11 @@ class SeacrhRecipesWidgetState extends State<SeacrhRecipesWidget>
 
 	void findAndOpenRecipe()
 	{
-		if(idFieldController.text == "1")
-			Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe: new SingleRecipe())));
+		//TODO - GET RECIPE ID FROM DB
+		//getRecipeByID(idFieldController.text);
+		var recipe = new SingleRecipe();
+		if(recipe != null)
+			Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe)));
 		else
 			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ID não encontrado')));
 	}

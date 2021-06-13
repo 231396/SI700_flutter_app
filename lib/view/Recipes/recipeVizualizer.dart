@@ -5,7 +5,7 @@ class RecipeVizualizerScreen extends StatelessWidget
 {
 	final SingleRecipe recipe;
 
-	RecipeVizualizerScreen({this.recipe});
+	RecipeVizualizerScreen(this.recipe);
 
 	@override
 	Widget build(BuildContext context)

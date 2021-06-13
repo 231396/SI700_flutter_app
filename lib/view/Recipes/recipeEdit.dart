@@ -4,13 +4,11 @@ import 'package:flutter_app/global.dart';
 class RecipeEditScreen extends StatefulWidget
 {
 	final SingleRecipe recipe;
-	final bool isNewRecipe;
 
-
-	RecipeEditScreen({this.recipe, this.isNewRecipe = false});
+	RecipeEditScreen(this.recipe);
 
 	@override
-	RecipeEditScreenState createState() => RecipeEditScreenState(recipe: recipe, isNewRecipe: isNewRecipe);
+	RecipeEditScreenState createState() => RecipeEditScreenState(recipe: recipe);
 }
 
 class RecipeEditScreenState extends State<RecipeEditScreen>
@@ -20,9 +18,8 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 	final urlFieldController = TextEditingController();
 
 	final SingleRecipe recipe;
-	final bool isNewRecipe;
 
-	RecipeEditScreenState({this.recipe, this.isNewRecipe = false});
+	RecipeEditScreenState({this.recipe});
 
 	@override
 	Widget build(BuildContext context)
@@ -37,16 +34,10 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 				child: SingleChildScrollView(child: Form (key: formKey, child: Column(
 					mainAxisAlignment: MainAxisAlignment.start,
 					children:[
-						Image.network(recipe.imagesUrl,
-							width: 250,
-							height: 250,
-							errorBuilder: imageErrorHandler,
-						),
+						urlToImage(recipe.imagesUrl),
 						SizedBox(height: 20),
 						TextFormField(
 							controller: urlFieldController,
-							// onChanged: (str) => _url = recipe.imagesUrl,
-							// initialValue: _recipe.imagesUrl,
 							keyboardType: TextInputType.url,
 							style: TextStyle(color: Colors.blue[900]),
 							decoration: InputDecoration(
@@ -65,7 +56,8 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 						SizedBox(height: 20),
 						TextFormField(
 							initialValue: recipe.recipeTitle,
-							onChanged: (str) => recipe.recipeTitle = str,
+							// onChanged: (str) => recipe.recipeTitle = str,
+							onSaved: (str) => recipe.recipeTitle = str,
 							maxLength: 30,
 							keyboardType: TextInputType.text,
 							style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -85,7 +77,8 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 						SizedBox(height: 15),
 						TextFormField(
 							initialValue: recipe.description,
-							onChanged: (str) => recipe.description = str,
+							// onChanged: (str) => recipe.description = str,
+							onSaved: (str) => recipe.description = str,
 							keyboardType: TextInputType.multiline,
   							maxLines: null,
 							style: TextStyle(color: Colors.black),
@@ -112,7 +105,7 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 								),
 								ElevatedButton(
 									child: Icon(Icons.update), 
-									onPressed: redraw,
+									onPressed: loadImageURL,
 								),
 								ElevatedButton(
 									child: Text("Deletar"), 
@@ -126,25 +119,44 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 		);
 	}
 
+	Widget urlToImage(String imgUrl){
+		try {
+		  return Image.network(imgUrl,
+				width: 250,
+				height: 250,
+				errorBuilder: imageErrorHandler,
+			);
+		} catch (e) {
+			return Icon(Icons.image);
+		}
+	}
+
+
 	@override
 	void dispose() {
 		urlFieldController.dispose();
 		super.dispose();
 	}
 
-	void redraw()
+	void loadImageURL()
 	{
 		setState(() => recipe.imagesUrl = urlFieldController.text);
 	}
 
 	void onSave()
 	{
-		ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Enviando ao servidor')));
+		if(formKey.currentState.validate()){
+			formKey.currentState.save();
+			recipe.printRecipe();
+			//TODO - SAVE RECIPE IN DB
+			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Enviado ao servidor')));
+		}
 	}
 
 	void removeRecipe()
 	{
-		ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Remoção Concluida')));
+		//TODO - DELETE RECIPE FROM DB
+		ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Remoção Solicitada')));
 		Navigator.of(context).pop();
 		Navigator.of(context).pop(true);
 	}
