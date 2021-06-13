@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';	
 import 'package:flutter_app/global.dart';	
 
-Widget defaultField(String title) => Column(
+Widget defaultField(String title, void Function(String) onSave) => Column(
 	crossAxisAlignment: CrossAxisAlignment.start,
 	children: [
 		Text(title, style: fieldLabelStyle),
@@ -12,6 +12,7 @@ Widget defaultField(String title) => Column(
 			height: 55.0,
 			child: TextFormField(
 				validator: basicValidator,
+				onSaved: onSave,
 				keyboardType: TextInputType.name,
 				style: TextStyle(color: Colors.white),
 				decoration: InputDecoration(
@@ -26,7 +27,7 @@ Widget defaultField(String title) => Column(
 );
 
 
-Widget passwordField({bool showPassword, void Function(bool) onShowPasswordChange}) => Column(
+Widget passwordField(bool showPassword, void Function(bool) onShowPasswordChange, void Function(String) onSave) => Column(
 	crossAxisAlignment: CrossAxisAlignment.start,
 	children: [
 		Text('Senha', style: fieldLabelStyle),
@@ -37,6 +38,7 @@ Widget passwordField({bool showPassword, void Function(bool) onShowPasswordChang
 			height: 55.0,
 			child: TextFormField(
 				validator: basicValidator,
+				onSaved: onSave,
 				obscureText: !showPassword,
 				keyboardType: TextInputType.visiblePassword,
 				style: TextStyle(color: Colors.white),
@@ -62,7 +64,7 @@ Widget passwordField({bool showPassword, void Function(bool) onShowPasswordChang
 	],
 );
 
-Widget emailField() =>  Column(
+Widget emailField(void Function(String) onSave) =>  Column(
 	crossAxisAlignment: CrossAxisAlignment.start,
 	children: [
 		Text('Email', style: fieldLabelStyle),
@@ -73,6 +75,7 @@ Widget emailField() =>  Column(
 			height: 55.0,
 			child: TextFormField(
 				validator: basicValidator,
+				onSaved: onSave,
 				keyboardType: TextInputType.emailAddress,
 				style: TextStyle(color: Colors.white),
 				decoration: InputDecoration(

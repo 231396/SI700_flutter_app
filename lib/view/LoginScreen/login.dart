@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/user.dart';
 import 'package:flutter_app/view/MainScreen/screen.dart';
 import 'shared.dart';
 
@@ -10,6 +11,8 @@ class LoginWidget extends StatefulWidget {
 class LoginWidgetState extends State<LoginWidget> 
 {
 	final formKeyLogin = GlobalKey<FormState>();
+
+	final User user = new User();
 
 	bool rememberMe = false;
 	bool showPassword = false;
@@ -23,18 +26,17 @@ class LoginWidgetState extends State<LoginWidget>
 			child: Column(
 				mainAxisAlignment: MainAxisAlignment.center,
 				children:[
-					emailField(),
+					emailField((value) => user.email = value),
 					SizedBox(height: 30.0),
-					passwordField(showPassword: showPassword, onShowPasswordChange: (value) { setState(() => showPassword = value); }),
+					passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => user.password = value),
 					SizedBox(height: 10.0),
-					rememberMeCheckbox(),
-					submitBtn("Entrar")
+					submitBtn()
 				],
 			)
 		),
 	));
 
-	Widget submitBtn(String btnText) => Container(
+	Widget submitBtn() => Container(
 		padding: EdgeInsets.symmetric(vertical: 25.0),
 		width: double.infinity,
 		child: ElevatedButton(
@@ -46,34 +48,19 @@ class LoginWidgetState extends State<LoginWidget>
 			),
 			onPressed: () {
 				if (formKeyLogin.currentState.validate()){
-					Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Logando')));
+					//TODO - REQUEST LOGIN
+					if(true){
+
+						Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+					}
+					else
+      // ignore: dead_code
+						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Invalido')));
 				}
 				else
-					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Invalido')));
+					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Formulario Invalido')));
 			},
-			child: Text(
-				btnText, 
-				style: submitButtonStyle
-			),
-		),
-	);
-
-	Widget rememberMeCheckbox() => Container(
-		height: 20.0,
-		child: Row(
-			children: [
-				Theme(
-					data: ThemeData(unselectedWidgetColor: Colors.white),
-					child: Checkbox(
-					value: rememberMe,
-						checkColor: Colors.green,
-						activeColor: Colors.white,
-						onChanged: (value) { setState(() => rememberMe = value); },
-					),
-				),
-				Text('Lembrar', style: fieldLabelStyle),
-			],
+			child: Text("Logar", style: submitButtonStyle),
 		),
 	);
 }

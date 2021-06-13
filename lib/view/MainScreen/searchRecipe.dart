@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/global.dart';
+import 'package:flutter_app/model/singleRecipe.dart';
 import 'package:flutter_app/view/Recipes/recipeVizualizer.dart';
 
 class SeacrhRecipesWidget extends StatefulWidget {
@@ -51,7 +51,7 @@ class SeacrhRecipesWidgetState extends State<SeacrhRecipesWidget>
 
 	void findAndOpenRecipe()
 	{
-		//TODO - GET RECIPE ID FROM DB
+		//TODO - GET RECIPE BY ID FROM DB
 		//getRecipeByID(idFieldController.text);
 		var recipe = new SingleRecipe();
 		if(recipe != null)

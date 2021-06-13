@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
+import 'package:flutter_app/model/singleRecipe.dart';
 
 class RecipeVizualizerScreen extends StatelessWidget
 {

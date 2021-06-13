@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
+import 'package:flutter_app/model/singleRecipe.dart';
 
 class RecipeEditScreen extends StatefulWidget
 {
@@ -101,7 +102,7 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 							children: [
 								ElevatedButton(
 									child: Text("Salvar"),
-									onPressed: onSave,
+									onPressed: saveRecipe,
 								),
 								ElevatedButton(
 									child: Icon(Icons.update), 
@@ -143,7 +144,7 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 		setState(() => recipe.imagesUrl = urlFieldController.text);
 	}
 
-	void onSave()
+	void saveRecipe()
 	{
 		if(formKey.currentState.validate()){
 			formKey.currentState.save();

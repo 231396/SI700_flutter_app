@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/user.dart';
 import 'shared.dart';
 
 class SingupWidget extends StatefulWidget {
@@ -9,13 +10,16 @@ class SingupWidget extends StatefulWidget {
 class SingupWidgetState extends State<SingupWidget> 
 {
 	final formKeySingup = GlobalKey<FormState>();
-	String genderDropdownChoise = genderDropdownList[0].value;
-	bool showPassword = false;
+
+	final User user = new User();
 
 	static const genderDropdownList = [
 		DropdownMenuItem(value: 'M', child: Text('M')),
 		DropdownMenuItem(value: 'F', child: Text('F')),
 	];
+
+	String genderDropdownChoice = genderDropdownList[0].value;
+	bool showPassword = false;
 
 	@override
 	Widget build(BuildContext context) => SingleChildScrollView(
@@ -28,14 +32,14 @@ class SingupWidgetState extends State<SingupWidget>
 				child: Column(
 					mainAxisAlignment: MainAxisAlignment.center,
 					children:[
-						defaultField("Nome"),
-						SizedBox(height: 30.0),
-						emailField(),
-						SizedBox(height: 30.0),
-						genderDropdown(),
-						SizedBox(height: 30.0),
-						passwordField(showPassword: showPassword, onShowPasswordChange: (value) { setState(() => showPassword = value); }),
-						submitBtn()
+							defaultField("Nome", (value) => user.name = value),
+							SizedBox(height: 30.0),
+							emailField((value) => user.email = value),
+							SizedBox(height: 30.0),
+							genderDropdown((value) => user.gender = value),
+							SizedBox(height: 30.0),
+							passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => user.password = value),
+							submitBtn()
 					],
 				)
 			),
@@ -53,20 +57,20 @@ class SingupWidgetState extends State<SingupWidget>
 				shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
 			),
 			onPressed: () {
-				print('Login Button Pressed');
-				if (formKeySingup.currentState.validate())
-					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Tentando Cadastrar...')));
+				if (formKeySingup.currentState.validate()){
+					//TODO - CADASTRAR
+					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
+				}
 				else
-					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastro Invalido')));
+					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Formulario Invalido')));
 			},
-			child: Text(
-				"Cadastrar", 
+			child: Text("Cadastrar", 
 				style: submitButtonStyle
 			),
 		),
 	);
 
-	Widget genderDropdown() => Row(
+		Widget genderDropdown(void Function(String) onSave) => Row(
 		mainAxisAlignment: MainAxisAlignment.start,
 		crossAxisAlignment: CrossAxisAlignment.center,
 		children: [
@@ -75,16 +79,16 @@ class SingupWidgetState extends State<SingupWidget>
 			Container(
 				padding: EdgeInsets.only(left: 10),
 				decoration: fieldBoxDecoration,
-				child: DropdownButton<String>(
-					underline: SizedBox(),
-					value: genderDropdownChoise,
+				child: SizedBox(width: 40, child: DropdownButtonFormField<String>(
+					value: genderDropdownChoice,
 					iconSize: 24,
 					style: const TextStyle(color: Colors.black),
 					onChanged: (value) {
-						setState(() => genderDropdownChoise = value);
+						setState(() => genderDropdownChoice = value);
 					},
+					onSaved: onSave,
 					items: genderDropdownList,
-				)
+				))
 			),
 		] 
 	);
