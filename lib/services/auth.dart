@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/model/user.dart';
+import 'package:flutter_app/services/database_firestone.dart';
 
 class Authentication {
 
@@ -8,41 +9,50 @@ class Authentication {
 
 	final FirebaseAuth _auth = FirebaseAuth.instance;
 
-	UserModel _firebaseUserToLocalUser(User user) {
-		return user != null ? new UserModel(id: user.uid, email: user.email) : null;
+	UserModel firebaseUserToUserModel(User user) {
+		if (user != null) {
+			//TODO - GET GENDER AND NAME
+			return new UserModel(id: user.uid, email: user.email, name: "", gender: "");
+		} else {
+			return null;
+		}
 	}
 
 	Stream<UserModel> get user {
-		return _auth.authStateChanges().map(_firebaseUserToLocalUser);
+		return _auth.authStateChanges().map(firebaseUserToUserModel);
+	}
+	
+	Stream<User> get firebaseUser {
+		return _auth.authStateChanges();
 	}
 
-	Future<dynamic> loginAnonymous() async {
+	Future<User> loginAnonymous() async {
 		try {
 			var result = await _auth.signInAnonymously();
-			return _firebaseUserToLocalUser(result.user);
+			return result.user;
 		} catch (e) {
 			print(e.toString());
 			return null;
 		}
 	}
 
-	Future<dynamic> loginEmailAndPassword(String email, String password) async {
+	Future<User> loginEmailAndPassword(String email, String password) async {
 		try {
 			var result = await _auth.signInWithEmailAndPassword(email: email, password: password);
-			var user = result.user;
-			return user;
+			return result.user;
 		} catch (error) {
 			print(error.toString());
 			return null;
 		} 
 	}
 
-	Future<dynamic> signupEmailAndPassword(String email, String password) async {
+	Future<User> signupEmailAndPassword(String email, String password, String name, String gender) async {
 		try {
 			var result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 			var user = result.user;
-			// await Database.helper(uid: user.uid).updateUserData('0','new crew member', 100);
-			return _firebaseUserToLocalUser(user);
+			if(user != null)
+				await Database.helper.updateUserData(user.uid, name, gender);
+			return user;
 		} catch (error) {
 			print(error.toString());
 			return null;

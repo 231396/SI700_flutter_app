@@ -1,7 +1,7 @@
 class SingleRecipe
 {
 	static const String ID = "id";
-	static const String URL = "imageUrl";
+	static const String IMAGE_URL = "imageUrl";
 	static const String TITLE = "title";
 	static const String DESCRIPTION = "description";
 

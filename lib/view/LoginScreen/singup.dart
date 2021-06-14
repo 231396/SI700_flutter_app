@@ -62,11 +62,9 @@ class SingupWidgetState extends State<SingupWidget>
 			onPressed: () {
 				if (formKeySingup.currentState.validate()){
 					formKeySingup.currentState.save();
-					var user = Authentication.service.signupEmailAndPassword(email, password);
-					if (user != null){
-						//TODO - SET NAME AND GENDER IN DB
+					var user = Authentication.service.signupEmailAndPassword(email, password, name, gender);
+					if (user != null)
 						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
-					}
 					else
 						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado Falhou')));
 				}

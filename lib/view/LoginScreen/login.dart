@@ -51,7 +51,6 @@ class LoginWidgetState extends State<LoginWidget>
 					// var user = await Authentication.service.loginAnonymous();
 					var user = await Authentication.service.loginEmailAndPassword(email, password);
 					if(user != null){
-						print(user);
 						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Bem Sucedido')));
 					}
 					else

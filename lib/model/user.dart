@@ -33,7 +33,7 @@ class UserModel
 			map[ID] = id;
 		return map;
 	}
-	
+
 	@override
 	String toString() => "User: [ $id, $name, $email, $password, $gender ]";
 }

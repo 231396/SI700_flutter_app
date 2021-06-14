@@ -8,9 +8,6 @@ class ProfileWidget extends StatelessWidget
 	@override
 	Widget build(BuildContext context) {
 		var user = Provider.of<UserModel>(context);
-		print(user);
-		//TODO - GET NAME, GENDER AND EMAIL FROM DB
-
 		return Container(
 			width: double.infinity,
 			decoration: containerBackground, 
@@ -18,11 +15,11 @@ class ProfileWidget extends StatelessWidget
 				mainAxisAlignment: MainAxisAlignment.center,
 				crossAxisAlignment: CrossAxisAlignment.center,
 				children:[
-					boxedText("Nome", "Andre Sacilotto"),
+					boxedText("Nome", user.name),
 					SizedBox(height: 30.0),
-					boxedText("Email", "andresample@mail.com"),
+					boxedText("Email", user.email),
 					SizedBox(height: 30.0),
-					boxedText("Sexo", "M"),
+					boxedText("Sexo", user.gender),
 					SizedBox(height: 30.0),
 					ElevatedButton(
 						onPressed: () => logout(context), 
