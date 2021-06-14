@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/model/recipe.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeVizualizerScreen extends StatelessWidget
 {
-	final SingleRecipe recipe;
+	final Recipe recipe;
 
 	RecipeVizualizerScreen(this.recipe);
 
@@ -21,9 +21,9 @@ class RecipeVizualizerScreen extends StatelessWidget
 				child: SingleChildScrollView(child: Column(
 					mainAxisAlignment: MainAxisAlignment.start,
 					children:[
-						urlToImage(recipe.imagesUrl),
+						urlToImage(recipe.imageUrl),
 						SizedBox(height: 20),
-						Text(recipe.recipeTitle,
+						Text(recipe.title,
 							textAlign: TextAlign.center,
 							style: TextStyle(fontSize: 30.0),
 						),

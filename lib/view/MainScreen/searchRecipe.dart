@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/model/recipe.dart';
 import 'package:flutter_app/view/Recipes/recipe_vizualizer.dart';
 
 class SeacrhRecipesWidget extends StatefulWidget {
@@ -53,7 +53,7 @@ class SeacrhRecipesWidgetState extends State<SeacrhRecipesWidget>
 	{
 		//TODO - GET RECIPE BY ID FROM DB
 		//getRecipeByID(idFieldController.text);
-		var recipe = new SingleRecipe();
+		var recipe = new Recipe();
 		if(recipe != null)
 			Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe)));
 		else

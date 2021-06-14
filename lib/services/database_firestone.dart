@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/model/recipe.dart';
 import 'package:flutter_app/model/user_auth.dart';
 import 'package:flutter_app/model/user_data.dart';
 
@@ -11,38 +11,28 @@ class Database{
 	final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
 	final CollectionReference recipesCollection = FirebaseFirestore.instance.collection("recipes");
 	
-	Future<void> updateUserData(String uid, String name, String gender) async {
-		return await userCollection.doc(uid).set({
-			UserData.NAME: name,
-			UserData.GENDER: gender,
-		});
+	Future<void> updateUserData(UserAuth auth, UserData data) async {
+		return await userCollection.doc(auth.uid).set(data.toJson());
 	}
 
 	//#region recipes operations
-	Future<DocumentReference<Object>> addRecipe(String uid, String title, String imageUrl, String description) async {
-		return await recipesCollection.add({
-			SingleRecipe.UID: uid,
-			SingleRecipe.TITLE: title,
-			SingleRecipe.IMAGE_URL: imageUrl,
-			SingleRecipe.DESCRIPTION: description,
-		});
+	Future<DocumentReference<Object>> addRecipe(Recipe recipe) async {
+		return await recipesCollection.add(recipe.toJson(false, true));
 	}	
-	Future<void> updateRecipe(String uidRecipe, String title, String imageUrl, String description) async {
-		return await recipesCollection.doc(uidRecipe).set({
-			SingleRecipe.TITLE: title,
-			SingleRecipe.IMAGE_URL: imageUrl,
-			SingleRecipe.DESCRIPTION: description,
-		});
+
+	Future<void> updateRecipe(Recipe recipe) async {
+		return await recipesCollection.doc(recipe.uidRecipe).set(recipe.toJson(false, false));
 	}
-	Future<void> deleteRecipe(String uidRecipe) async {
-		return await recipesCollection.doc(uidRecipe).delete();
+
+	Future<void> deleteRecipe(Recipe recipe) async {
+		return await recipesCollection.doc(recipe.uidRecipe).delete();
 	}	
 	//#endregion
 
 	Future<UserData> getUserData(UserAuth user) async{
 		if (user != null){
 			var doc = await userCollection.doc(user.uid).get();
-			return new UserData(name: doc[UserData.NAME], gender: doc[UserData.GENDER]);
+			return new UserData.fromJson(doc.data());
 		}
 		return null;
 	}

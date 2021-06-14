@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_app/model/user_auth.dart';
+import 'package:flutter_app/model/user_data.dart';
 import 'package:flutter_app/services/database_firestone.dart';
 
 class Authentication {
@@ -40,10 +41,10 @@ class Authentication {
 	Future<UserAuth> signupEmailAndPassword(String email, String password, String name, String gender) async {
 		try {
 			var result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-			var user = result.user;
+			var user = firebaseUserToUserAuth(result.user);
 			if(user != null)
-				await Database.helper.updateUserData(user.uid, name, gender);
-			return firebaseUserToUserAuth(result.user);
+				await Database.helper.updateUserData(user, new UserData(name: name, gender: gender));
+			return user;
 		} catch (error) {
 			print(error.toString());
 			return null;

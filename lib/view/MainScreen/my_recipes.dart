@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
-import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/model/recipe.dart';
 import 'package:flutter_app/view/Recipes/recipe_edit.dart';
 import 'package:flutter_app/view/Recipes/recipe_vizualizer.dart';
 
@@ -12,7 +12,7 @@ class MyRecipesWidget extends StatefulWidget {
 
 class MyRecipesWidgetState extends State<MyRecipesWidget> 
 {
-	final recipes = <SingleRecipe>[];
+	final recipes = <Recipe>[];
 
 	@override
 	void initState() {
@@ -33,7 +33,7 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 					listViewRecipesBuild(context, recipes),
 					ElevatedButton(
 						onPressed: () async {
-							var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new SingleRecipe())));
+							var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new Recipe())));
 							print(result);
 							//setState(() => recipes.add(newRecipe));
 
@@ -51,7 +51,7 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 		);
 	}
 
-	ListView listViewRecipesBuild(BuildContext context, List<SingleRecipe> recipes) => ListView.separated(
+	ListView listViewRecipesBuild(BuildContext context, List<Recipe> recipes) => ListView.separated(
 		shrinkWrap: true,
 		padding: const EdgeInsets.all(8),
 		itemCount: recipes.length,
@@ -67,20 +67,20 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 				leading: ClipRRect(
 					borderRadius: BorderRadius.circular(10.0),
 					child: Image.network(
-						recipes[index].imagesUrl, 
+						recipes[index].imageUrl, 
 						width: 50, 
 						height: 50,
 						fit: BoxFit.cover, 
 						errorBuilder: imageErrorHandler
 					),
 				),
-				title: Text("${recipes[index].recipeTitle}", style: TextStyle(fontSize: 24), overflow: TextOverflow.ellipsis),
+				title: Text("${recipes[index].title}", style: TextStyle(fontSize: 24), overflow: TextOverflow.ellipsis),
 				onTap: () => showRecipeDialog(recipes[index]),
 				),
 			),
 	);
 
-	Future<void> showRecipeDialog(SingleRecipe recipe) async 
+	Future<void> showRecipeDialog(Recipe recipe) async 
 	{
 		return showDialog<void>(
 			context: context,

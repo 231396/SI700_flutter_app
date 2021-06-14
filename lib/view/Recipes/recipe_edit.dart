@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/model/recipe.dart';
 import 'package:flutter_app/services/database_firestone.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeEditScreen extends StatefulWidget
 {
-	final SingleRecipe recipe;
+	final Recipe recipe;
 
 	RecipeEditScreen(this.recipe);
 
@@ -19,14 +19,14 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 
 	final urlFieldController = TextEditingController();
 
-	final SingleRecipe recipe;
+	final Recipe recipe;
 
 	RecipeEditScreenState({this.recipe});
 
 	@override
 	Widget build(BuildContext context)
 	{ 
-		urlFieldController.text = recipe.imagesUrl;
+		urlFieldController.text = recipe.imageUrl;
 		return Scaffold(
 			appBar: AppBar(
 				title: Text("Editando Receita"),
@@ -36,7 +36,7 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 				child: SingleChildScrollView(child: Form (key: formKey, child: Column(
 					mainAxisAlignment: MainAxisAlignment.start,
 					children:[
-						urlToImage(recipe.imagesUrl),
+						urlToImage(recipe.imageUrl),
 						SizedBox(height: 20),
 						TextFormField(
 							controller: urlFieldController,
@@ -57,8 +57,8 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 						),
 						SizedBox(height: 20),
 						TextFormField(
-							initialValue: recipe.recipeTitle,
-							onSaved: (str) => recipe.recipeTitle = str,
+							initialValue: recipe.title,
+							onSaved: (str) => recipe.title = str,
 							maxLength: 30,
 							keyboardType: TextInputType.text,
 							style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
@@ -127,7 +127,7 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 
 	void loadImageURL()
 	{
-		setState(() => recipe.imagesUrl = urlFieldController.text);
+		setState(() => recipe.imageUrl = urlFieldController.text);
 	}
 
 	void saveRecipe()
