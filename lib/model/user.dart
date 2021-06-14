@@ -1,4 +1,4 @@
-class User 
+class UserModel 
 {
 	static const String ID = "id";
 	static const String NAME = "name";
@@ -6,15 +6,15 @@ class User
 	static const String GENDER = "gender";
 	static const String PASSWORD = "password";
 
-	int id;
+	String id;
 	String name;
 	String email;
 	String password;
 	String gender;
 	
-	User({this.id = -1, this.name = "", this.email = "", this.password = "", this.gender = ""});
+	UserModel({this.id = "", this.name = "", this.email = "", this.password = "", this.gender = ""});
 
-	User.fromJson(Map<String, dynamic> map) {
+	UserModel.fromJson(Map<String, dynamic> map) {
 		id = map[ID];
 		name = map[NAME];
 		email = map[EMAIL];
@@ -29,10 +29,11 @@ class User
 			PASSWORD: password,
 			GENDER: gender,
 		};
-		if(id > -1)
+		if(id.isNotEmpty)
 			map[ID] = id;
 		return map;
 	}
-
-	void printPerson() => print("[ $id, $name, $email, $password, $gender ]");
+	
+	@override
+	String toString() => "User: [ $id, $name, $email, $password, $gender ]";
 }

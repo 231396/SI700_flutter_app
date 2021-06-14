@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "528285831275",
+    "project_id": "receitasappflutter",
+    "storage_bucket": "receitasappflutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528285831275:android:8135f2ee7c0f62e19ce12e",
+        "android_client_info": {
+          "package_name": "com.andre.receita_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528285831275-umvramtemcrd3oblqo8eil09dsv59u65.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7wAt1x4rKHx8UDGfdbwXqytC3v7qlXN8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528285831275-umvramtemcrd3oblqo8eil09dsv59u65.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

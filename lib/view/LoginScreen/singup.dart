@@ -11,7 +11,10 @@ class SingupWidgetState extends State<SingupWidget>
 {
 	final formKeySingup = GlobalKey<FormState>();
 
-	final User user = new User();
+	String name = "";
+	String email = "";
+	String password = "";
+	String gender = "";
 
 	static const genderDropdownList = [
 		DropdownMenuItem(value: 'M', child: Text('M')),
@@ -32,13 +35,13 @@ class SingupWidgetState extends State<SingupWidget>
 				child: Column(
 					mainAxisAlignment: MainAxisAlignment.center,
 					children:[
-							defaultField("Nome", (value) => user.name = value),
+							defaultField("Nome", (value) => name = value),
 							SizedBox(height: 30.0),
-							emailField((value) => user.email = value),
+							emailField((value) => email = value),
 							SizedBox(height: 30.0),
-							genderDropdown((value) => user.gender = value),
+							genderDropdown((value) => gender = value),
 							SizedBox(height: 30.0),
-							passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => user.password = value),
+							passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => password = value),
 							submitBtn()
 					],
 				)
@@ -58,6 +61,7 @@ class SingupWidgetState extends State<SingupWidget>
 			),
 			onPressed: () {
 				if (formKeySingup.currentState.validate()){
+					formKeySingup.currentState.save();
 					//TODO - CADASTRAR
 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
 				}

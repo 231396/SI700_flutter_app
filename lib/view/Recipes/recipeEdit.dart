@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/global.dart';
 import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeEditScreen extends StatefulWidget
 {
@@ -119,19 +119,6 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 			))
 		);
 	}
-
-	Widget urlToImage(String imgUrl){
-		try {
-		  return Image.network(imgUrl,
-				width: 250,
-				height: 250,
-				errorBuilder: imageErrorHandler,
-			);
-		} catch (e) {
-			return Icon(Icons.image);
-		}
-	}
-
 
 	@override
 	void dispose() {

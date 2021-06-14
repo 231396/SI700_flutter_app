@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/view/LoginScreen/screen.dart';
+import 'package:flutter_app/services/auth.dart';
 
 class ProfileWidget extends StatelessWidget 
 {
@@ -29,9 +29,9 @@ class ProfileWidget extends StatelessWidget
 		)
 	);
 
-	void logout(BuildContext context){
-		Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginSingupScreen()));
-		//REMOVE FROM LOCAL SAVE
+	void logout(BuildContext context) async{
+		//Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginSingupScreen()));
+		await Authentication.service.signOut();
 	}
 
 	Widget boxedText(String title, String text) => Column(

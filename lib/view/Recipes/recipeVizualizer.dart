@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/global.dart';
 import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeVizualizerScreen extends StatelessWidget
 {
@@ -21,11 +21,7 @@ class RecipeVizualizerScreen extends StatelessWidget
 				child: SingleChildScrollView(child: Column(
 					mainAxisAlignment: MainAxisAlignment.start,
 					children:[
-						Image.network(recipe.imagesUrl,
-							width: 250,
-							height: 250,
-							errorBuilder: imageErrorHandler,
-						),
+						urlToImage(recipe.imagesUrl),
 						SizedBox(height: 20),
 						Text(recipe.recipeTitle,
 							textAlign: TextAlign.center,

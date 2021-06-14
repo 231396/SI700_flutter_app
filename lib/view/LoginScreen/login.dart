@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/user.dart';
-import 'package:flutter_app/view/MainScreen/screen.dart';
+import 'package:flutter_app/services/auth.dart';
 import 'shared.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -12,9 +11,9 @@ class LoginWidgetState extends State<LoginWidget>
 {
 	final formKeyLogin = GlobalKey<FormState>();
 
-	final User user = new User();
+	String email = "";
+	String password = "";
 
-	bool rememberMe = false;
 	bool showPassword = false;
 
 	@override
@@ -26,9 +25,9 @@ class LoginWidgetState extends State<LoginWidget>
 			child: Column(
 				mainAxisAlignment: MainAxisAlignment.center,
 				children:[
-					emailField((value) => user.email = value),
+					emailField((value) => email = value),
 					SizedBox(height: 30.0),
-					passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => user.password = value),
+					passwordField(showPassword, (value) => setState(() => showPassword = value), (value) => password = value),
 					SizedBox(height: 10.0),
 					submitBtn()
 				],
@@ -46,15 +45,15 @@ class LoginWidgetState extends State<LoginWidget>
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
 				shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
 			),
-			onPressed: () {
+			onPressed: () async {
 				if (formKeyLogin.currentState.validate()){
-					//TODO - REQUEST LOGIN
-					if(true){
-
-						Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+					formKeyLogin.currentState.save();
+					var user = await Authentication.service.loginAnonymous();
+					print(user);
+					if(user != null){
+						
 					}
 					else
-      // ignore: dead_code
 						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Invalido')));
 				}
 				else
