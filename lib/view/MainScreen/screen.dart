@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget
 
 class HomeScreenStatefulState extends State<HomeScreen> 
 {
-  	int currentNavIndex = 1;
+  	int currentNavIndex = 2;
 	  
   	final List<Widget> navOptions = [
 		  SeacrhRecipesWidget(),

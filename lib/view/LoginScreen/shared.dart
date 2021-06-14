@@ -37,7 +37,11 @@ Widget passwordField(bool showPassword, void Function(bool) onShowPasswordChange
 			decoration: fieldBoxDecoration,
 			height: 55.0,
 			child: TextFormField(
-				validator: basicValidator,
+				validator: (passStr) {
+					if(basicStringValidation(passStr) || passStr.length < 6)
+						return "Senha com menos de 6 caracteres";
+					return null;
+				},
 				onSaved: onSave,
 				obscureText: !showPassword,
 				keyboardType: TextInputType.visiblePassword,
@@ -74,7 +78,10 @@ Widget emailField(void Function(String) onSave) =>  Column(
 			decoration: fieldBoxDecoration,
 			height: 55.0,
 			child: TextFormField(
-				validator: basicValidator,
+				validator: (emailStr) {
+					bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailStr);
+					return emailValid ? null : "Email Invalido"; 
+				},
 				onSaved: onSave,
 				keyboardType: TextInputType.emailAddress,
 				style: TextStyle(color: Colors.white),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/user.dart';
+import 'package:flutter_app/services/auth.dart';
 import 'shared.dart';
 
 class SingupWidget extends StatefulWidget {
@@ -62,8 +62,13 @@ class SingupWidgetState extends State<SingupWidget>
 			onPressed: () {
 				if (formKeySingup.currentState.validate()){
 					formKeySingup.currentState.save();
-					//TODO - CADASTRAR
-					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
+					var user = Authentication.service.signupEmailAndPassword(email, password);
+					if (user != null){
+						//TODO - SET NAME AND GENDER IN DB
+						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado com Sucesso')));
+					}
+					else
+						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastrado Falhou')));
 				}
 				else
 					ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Formulario Invalido')));

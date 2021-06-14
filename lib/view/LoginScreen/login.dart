@@ -48,10 +48,11 @@ class LoginWidgetState extends State<LoginWidget>
 			onPressed: () async {
 				if (formKeyLogin.currentState.validate()){
 					formKeyLogin.currentState.save();
-					var user = await Authentication.service.loginAnonymous();
-					print(user);
+					// var user = await Authentication.service.loginAnonymous();
+					var user = await Authentication.service.loginEmailAndPassword(email, password);
 					if(user != null){
-						
+						print(user);
+						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Bem Sucedido')));
 					}
 					else
 						ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Login Invalido')));

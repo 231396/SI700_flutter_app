@@ -7,9 +7,11 @@ final tabTextStyle = TextStyle(
 
 String basicValidator(String str){
 	if (str == null || str.isEmpty)
-		return 'Campo em branco';
+		return 'Campo em vazio';
     return null;
 }
+
+bool basicStringValidation(String str) => str == null || str.isEmpty;
 
 Widget imageErrorHandler(BuildContext context, Object exception, StackTrace stackTrace)
 {

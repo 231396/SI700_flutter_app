@@ -19,7 +19,6 @@ class Authentication {
 	Future<dynamic> loginAnonymous() async {
 		try {
 			var result = await _auth.signInAnonymously();
-			// return result.user;
 			return _firebaseUserToLocalUser(result.user);
 		} catch (e) {
 			print(e.toString());
@@ -38,7 +37,7 @@ class Authentication {
 		} 
 	}
 
-	Future<dynamic> registerWithEmailAndPassword(String email, String password) async {
+	Future<dynamic> signupEmailAndPassword(String email, String password) async {
 		try {
 			var result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 			var user = result.user;

@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/user.dart';
 import 'package:flutter_app/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class ProfileWidget extends StatelessWidget 
 {
 	@override
-	Widget build(BuildContext context) => Container(
-		width: double.infinity,
-		decoration: containerBackground, 
-		child: Column(
-			mainAxisAlignment: MainAxisAlignment.center,
-			crossAxisAlignment: CrossAxisAlignment.center,
-			children:[
-				boxedText("Nome", "Andre Sacilotto"),
-				SizedBox(height: 30.0),
-				boxedText("Email", "andresample@mail.com"),
-				SizedBox(height: 30.0),
-				boxedText("Sexo", "M"),
-				SizedBox(height: 30.0),
-				ElevatedButton(
-					onPressed: () => logout(context), 
-					child: Text("Logout", style: TextStyle(color: Colors.black),), 
-					style: ElevatedButton.styleFrom(				
-						elevation: 5,
-                		primary: Colors.white54
+	Widget build(BuildContext context) {
+		var user = Provider.of<UserModel>(context);
+		print(user);
+		//TODO - GET NAME, GENDER AND EMAIL FROM DB
+
+		return Container(
+			width: double.infinity,
+			decoration: containerBackground, 
+			child: Column(
+				mainAxisAlignment: MainAxisAlignment.center,
+				crossAxisAlignment: CrossAxisAlignment.center,
+				children:[
+					boxedText("Nome", "Andre Sacilotto"),
+					SizedBox(height: 30.0),
+					boxedText("Email", "andresample@mail.com"),
+					SizedBox(height: 30.0),
+					boxedText("Sexo", "M"),
+					SizedBox(height: 30.0),
+					ElevatedButton(
+						onPressed: () => logout(context), 
+						child: Text("Logout", style: TextStyle(color: Colors.black),), 
+						style: ElevatedButton.styleFrom(				
+							elevation: 5,
+							primary: Colors.white54
+						),
 					),
-				),
-			],
-		)
-	);
+				],
+			)
+		);
+	}
 
 	void logout(BuildContext context) async{
-		//Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginSingupScreen()));
 		await Authentication.service.signOut();
 	}
 
