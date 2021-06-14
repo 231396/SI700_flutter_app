@@ -40,7 +40,7 @@ class RecipeVizualizerScreen extends StatelessWidget
 						Container(
 							padding: const EdgeInsets.all(10.0),
 							alignment: Alignment.centerLeft,
-							child: Text("ID: ${recipe.recipeID}"),
+							child: Text("ID: ${recipe.uidRecipe}"),
 						),
 					],
 				))

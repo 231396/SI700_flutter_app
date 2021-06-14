@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/singleRecipe.dart';
+import 'package:flutter_app/services/database_firestone.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeEditScreen extends StatefulWidget
@@ -57,7 +58,6 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 						SizedBox(height: 20),
 						TextFormField(
 							initialValue: recipe.recipeTitle,
-							// onChanged: (str) => recipe.recipeTitle = str,
 							onSaved: (str) => recipe.recipeTitle = str,
 							maxLength: 30,
 							keyboardType: TextInputType.text,
@@ -78,7 +78,6 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 						SizedBox(height: 15),
 						TextFormField(
 							initialValue: recipe.description,
-							// onChanged: (str) => recipe.description = str,
 							onSaved: (str) => recipe.description = str,
 							keyboardType: TextInputType.multiline,
   							maxLines: null,
@@ -135,9 +134,10 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 	{
 		if(formKey.currentState.validate()){
 			formKey.currentState.save();
-			recipe.printRecipe();
+			print(recipe);
 			//TODO - SAVE RECIPE IN DB
-			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Enviado ao servidor')));
+			//Database.helper.updateRecipe(uidRecipe, title, imageUrl, description)
+			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Receita Salva')));
 		}
 	}
 

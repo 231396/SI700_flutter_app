@@ -12,13 +12,8 @@ class MyRecipesWidget extends StatefulWidget {
 
 class MyRecipesWidgetState extends State<MyRecipesWidget> 
 {
-	// static const defaultDescr = "1/2 xícara (chá) de óleo\r\n3 cenouras médias raladas\r\n4 ovos\r\n2 xícaras (chá) de açúcar\r\n2 e 1/2 xícaras (chá) de farinha de trigo\r\n1 colher (sopa) de fermento em pó";
 	final recipes = <SingleRecipe>[];
-	// 	new SingleRecipe(recipeID: "0", imagesUrl: "https://picsum.photos/250?image=9", recipeTitle:  "Bolo de Cenoura", description: defaultDescr),
-	// 	new SingleRecipe(recipeID: "1", imagesUrl:"https://picsum.photos/250?image=7",recipeTitle: "Bolo de Pave", description: defaultDescr),
-	// 	new SingleRecipe(recipeID: "2", imagesUrl: "https://picsum.photos/250?image=6", recipeTitle: "Bolo Molhado", description: defaultDescr),
-	// ];
-	
+
 	@override
 	void initState() {
 		super.initState();

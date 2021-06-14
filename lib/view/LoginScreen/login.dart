@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/model/user_auth.dart';
 import 'package:flutter_app/services/auth.dart';
+import 'package:provider/provider.dart';
 import 'shared.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -17,7 +19,10 @@ class LoginWidgetState extends State<LoginWidget>
 	bool showPassword = false;
 
 	@override
-	Widget build(BuildContext context) => SingleChildScrollView(child: Form(
+	Widget build(BuildContext context) {
+		var user = Provider.of<UserAuth>(context);
+		print("AAA " + user.toString());
+	  return SingleChildScrollView(child: Form(
 		key: formKeyLogin,
 		child: Container(
 			height: 550,
@@ -34,6 +39,7 @@ class LoginWidgetState extends State<LoginWidget>
 			)
 		),
 	));
+	}
 
 	Widget submitBtn() => Container(
 		padding: EdgeInsets.symmetric(vertical: 25.0),

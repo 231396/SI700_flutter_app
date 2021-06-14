@@ -1,20 +1,21 @@
 class SingleRecipe
 {
-	static const String ID = "id";
+	static const String UID = "uidRecipe";
+	static const String AUTOR_UID = "uidAuthor";
 	static const String IMAGE_URL = "imageUrl";
 	static const String TITLE = "title";
 	static const String DESCRIPTION = "description";
 
-	String recipeID;
+	String uidRecipe;
+	String uidAuthor;
 	String imagesUrl;
 	String recipeTitle;
 
 	String description;
 
-	SingleRecipe({this.recipeID = "", this.imagesUrl = "", this.recipeTitle = "", this.description = ""});
+	SingleRecipe({this.uidRecipe = "", this.uidAuthor = "", this.imagesUrl = "", this.recipeTitle = "", this.description = ""});
 
-	void printRecipe(){
-		print(recipeID + " " + imagesUrl + " " + recipeTitle);
-		print(description);
+	String toString(){
+		return "[$uidRecipe, $uidAuthor, $imagesUrl, $recipeTitle]\n[$description]";
 	}
 }

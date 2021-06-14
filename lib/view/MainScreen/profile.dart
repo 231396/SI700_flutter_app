@@ -1,35 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/user.dart';
+import 'package:flutter_app/model/user_auth.dart';
+import 'package:flutter_app/model/user_data.dart';
 import 'package:flutter_app/services/auth.dart';
+import 'package:flutter_app/services/database_firestone.dart';
 import 'package:provider/provider.dart';
 
-class ProfileWidget extends StatelessWidget 
+class ProfileWidget extends StatefulWidget 
+{
+	@override
+	_ProfileWidgetState createState() => _ProfileWidgetState();
+}
+
+class _ProfileWidgetState extends State<ProfileWidget> 
 {
 	@override
 	Widget build(BuildContext context) {
-		var user = Provider.of<UserModel>(context);
+		var user = Provider.of<UserAuth>(context);
 		return Container(
 			width: double.infinity,
 			decoration: containerBackground, 
-			child: Column(
-				mainAxisAlignment: MainAxisAlignment.center,
-				crossAxisAlignment: CrossAxisAlignment.center,
-				children:[
-					boxedText("Nome", user.name),
-					SizedBox(height: 30.0),
-					boxedText("Email", user.email),
-					SizedBox(height: 30.0),
-					boxedText("Sexo", user.gender),
-					SizedBox(height: 30.0),
-					ElevatedButton(
-						onPressed: () => logout(context), 
-						child: Text("Logout", style: TextStyle(color: Colors.black),), 
-						style: ElevatedButton.styleFrom(				
-							elevation: 5,
-							primary: Colors.white54
-						),
-					),
-				],
+			child: FutureBuilder<UserData>(
+				future: Database.helper.getUserData(user),
+				builder: (BuildContext context, AsyncSnapshot<UserData> snapshot) { 
+					if (snapshot.hasData)
+						return Column(
+							mainAxisAlignment: MainAxisAlignment.center,
+							crossAxisAlignment: CrossAxisAlignment.center,
+							children:[
+								boxedText("Nome", snapshot.data.name),
+								SizedBox(height: 30.0),
+								boxedText("Email", user.email),
+								SizedBox(height: 30.0),
+								boxedText("Sexo", snapshot.data.gender),
+								SizedBox(height: 30.0),
+								ElevatedButton(
+									onPressed: () => logout(context), 
+									child: Text("Logout", style: TextStyle(color: Colors.black),), 
+									style: ElevatedButton.styleFrom(				
+										elevation: 5,
+										primary: Colors.white54
+									),
+								),
+							],
+						);
+					else
+						return SizedBox();
+				}
 			)
 		);
 	}
@@ -58,7 +74,7 @@ class ProfileWidget extends StatelessWidget
 			)
 		],
 	);
-	
+
 	final containerBackground = BoxDecoration(
 		gradient: LinearGradient(
 			begin: Alignment.topCenter,
