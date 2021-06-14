@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_app/view/pageSelector.dart';
+import 'package:flutter_app/view/page_selector.dart';
 
 void main() async {
 	WidgetsFlutterBinding.ensureInitialized();

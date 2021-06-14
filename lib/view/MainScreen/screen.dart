@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'profile.dart';
-import 'myRecipes.dart';
+import 'my_recipes.dart';
 import 'searchRecipe.dart';
 
 class HomeScreen extends StatefulWidget

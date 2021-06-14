@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
 import 'package:flutter_app/model/singleRecipe.dart';
-import 'package:flutter_app/view/Recipes/recipeEdit.dart';
-import 'package:flutter_app/view/Recipes/recipeVizualizer.dart';
+import 'package:flutter_app/view/Recipes/recipe_edit.dart';
+import 'package:flutter_app/view/Recipes/recipe_vizualizer.dart';
 
 class MyRecipesWidget extends StatefulWidget {
 	@override
