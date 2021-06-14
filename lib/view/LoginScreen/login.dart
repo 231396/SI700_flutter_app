@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/model/user_auth.dart';
+import 'package:flutter_app/model/user_data.dart';
 import 'package:flutter_app/services/auth.dart';
 import 'package:provider/provider.dart';
 import 'shared.dart';
@@ -20,7 +20,7 @@ class LoginWidgetState extends State<LoginWidget>
 
 	@override
 	Widget build(BuildContext context) {
-		var user = Provider.of<UserAuth>(context);
+		var user = Provider.of<UserData>(context);
 		print("AAA " + user.toString());
 	  return SingleChildScrollView(child: Form(
 		key: formKeyLogin,

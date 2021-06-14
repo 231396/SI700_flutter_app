@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/model/user_auth.dart';
 import 'package:flutter_app/model/user_data.dart';
 import 'package:flutter_app/services/database_firestone.dart';
 
@@ -10,11 +9,11 @@ class Authentication {
 
 	final FirebaseAuth _auth = FirebaseAuth.instance;
 
-	UserAuth firebaseUserToUserAuth(User user) {
-		return user != null ? new UserAuth.fromFirebaseUser(user) : null;
+	UserData firebaseUserToUserAuth(User user) {
+		return user != null ? new UserData(uid: user.uid, email: user.email) : null;
 	}
 
-	Stream<UserAuth> get user {
+	Stream<UserData> get user {
 		return _auth.authStateChanges().map(firebaseUserToUserAuth);
 	}
 
@@ -28,7 +27,7 @@ class Authentication {
 	// 	}
 	// }
 
-	Future<UserAuth> loginEmailAndPassword(String email, String password) async {
+	Future<UserData> loginEmailAndPassword(String email, String password) async {
 		try {
 			var result = await _auth.signInWithEmailAndPassword(email: email, password: password);
 			return firebaseUserToUserAuth(result.user);
@@ -38,12 +37,15 @@ class Authentication {
 		} 
 	}
 
-	Future<UserAuth> signupEmailAndPassword(String email, String password, String name, String gender) async {
+	Future<UserData> signupEmailAndPassword(String email, String password, String name, String gender) async {
 		try {
 			var result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 			var user = firebaseUserToUserAuth(result.user);
-			if(user != null)
-				await Database.helper.updateUserData(user, new UserData(name: name, gender: gender));
+			if(user != null){
+				user.name = name;
+				user.gender = gender;
+				await Database.helper.updateUserData(user);
+			}
 			return user;
 		} catch (error) {
 			print(error.toString());

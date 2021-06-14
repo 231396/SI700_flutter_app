@@ -15,7 +15,15 @@ class Recipe
 
 	Recipe({this.uidRecipe = "", this.uidAuthor = "", this.imageUrl = "", this.title = "", this.description = ""});
 
-	Recipe.fromJson(Map<String, dynamic> map) {
+	Recipe.fromMapUID(String uid, Map<String, dynamic> map) {
+		uidRecipe = uid;
+		uidAuthor = map[AUTOR_UID];
+		imageUrl = map[IMAGE_URL];
+		title = map[TITLE];
+		description = map[DESCRIPTION];
+	}
+
+	Recipe.fromMap(Map<String, dynamic> map) {
 		uidRecipe = map[RECIPE_UID];
 		uidAuthor = map[AUTOR_UID];
 		imageUrl = map[IMAGE_URL];
@@ -23,7 +31,7 @@ class Recipe
 		description = map[DESCRIPTION];
 	}
 
-	Map<String, dynamic> toJson(bool addRecipeUID, bool addAuthorUID) {
+	Map<String, dynamic> toMap(bool addRecipeUID, bool addAuthorUID) {
 		var map = <String, Object>{
 			IMAGE_URL: imageUrl,
 			TITLE: title,

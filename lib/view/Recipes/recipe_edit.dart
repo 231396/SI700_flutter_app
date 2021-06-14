@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/recipe.dart';
-import 'package:flutter_app/services/database_firestone.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeEditScreen extends StatefulWidget

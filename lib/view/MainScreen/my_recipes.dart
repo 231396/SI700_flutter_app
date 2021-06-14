@@ -17,11 +17,6 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 	@override
 	void initState() {
 		super.initState();
-		loadRecipes();
-	}
-
-	void loadRecipes(){
-		//TODO - GET RECIPES FROM DB
 	}
 
 	@override
@@ -32,14 +27,8 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 			body: SingleChildScrollView(child: Column(children: [
 					listViewRecipesBuild(context, recipes),
 					ElevatedButton(
-						onPressed: () async {
-							var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new Recipe())));
-							print(result);
-							//setState(() => recipes.add(newRecipe));
-
-							if(result != null){
-								setState(loadRecipes);
-							}
+						onPressed: () {
+							Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new Recipe())));
 						},
 						child: Icon(Icons.add),
 						style: ElevatedButton.styleFrom(				
@@ -80,7 +69,7 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 			),
 	);
 
-	Future<void> showRecipeDialog(Recipe recipe) async 
+	Future<void> showRecipeDialog(Recipe recipe) 
 	{
 		return showDialog<void>(
 			context: context,
@@ -97,13 +86,9 @@ class MyRecipesWidgetState extends State<MyRecipesWidget>
 						),
 						TextButton(
 							child: Text('Editar'),
-							onPressed: () async {
+							onPressed: () {
 								Navigator.of(context).pop();
-								final result = await Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe)));
-								print(result);
-								if(result != null){
-									setState(loadRecipes);
-								}
+								Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe)));
 							},
 						),
 					],
