@@ -10,23 +10,37 @@ class Database{
 	final CollectionReference _userCollection = FirebaseFirestore.instance.collection("users");
 	final CollectionReference _recipesCollection = FirebaseFirestore.instance.collection("recipes");
 	
+	//#region operations
 	Future<void> updateUserData(UserData user) async {
 		return await _userCollection.doc(user.uid).set(user.toMapNoAuth());
 	}
 
-	//#region recipes operations
 	Future<DocumentReference<Object>> addRecipe(Recipe recipe) async {
-		return await _recipesCollection.add(recipe.toMap(false, true));
+		return await _recipesCollection.add(recipe.toMap(false));
 	}	
 
 	Future<void> updateRecipe(Recipe recipe) async {
-		return await _recipesCollection.doc(recipe.uidRecipe).set(recipe.toMap(false, false));
+		return await _recipesCollection.doc(recipe.uidRecipe).set(recipe.toMap(false));
 	}
 
 	Future<void> deleteRecipe(Recipe recipe) async {
 		return await _recipesCollection.doc(recipe.uidRecipe).delete();
 	}	
 	//#endregion
+
+	//#region streams
+	Future<UserData> getUserData(UserData user) async {
+		var doc = await _recipesCollection.doc(user.uid).get();
+		if(!doc.exists)
+			return null;
+		return UserData.fromMapUID(user.uid, user.email, doc.data());
+	}
+	Future<Recipe> getRecipe(Recipe recipe) async {
+		var doc = await _recipesCollection.doc(recipe.uidRecipe).get();
+		if(!doc.exists)
+			return null;
+		return Recipe.fromMapUID(recipe.uidRecipe, doc.data());
+	}
 
 	Stream<UserData> getUserDataStream(UserData user) {
 		return _userCollection.doc(user.uid).snapshots().map((ss) => UserData.fromMapUID(user.uid, user.email, ss.data()));
@@ -35,12 +49,14 @@ class Database{
 	Stream<Recipe> getRecipeStream(Recipe recipe) {
 		return _recipesCollection.doc(recipe.uidRecipe).snapshots().map((ss) => Recipe.fromMapUID(recipe.uidRecipe, ss.data()));
 	}
-
-	List<Recipe> _recipesFromSnapshot(QuerySnapshot snapshot) => 
-		snapshot.docs.map((doc) => Recipe.fromMap(doc.data())).toList();
-	Stream<List<Recipe>> getRecipesStream() {
-		return _recipesCollection.snapshots().map(_recipesFromSnapshot);
+	Stream<List<Recipe>> getRecipeListStream(UserData user) {
+		return _recipesCollection.where(Recipe.AUTOR_UID, isEqualTo: user.uid).snapshots().map((ss) => 
+		ss.docs.map((doc) => Recipe.fromMapUID(doc.id, doc.data())).toList());
 	}
-
+	Stream<List<Recipe>> getAllRecipesStream() {
+		return _recipesCollection.snapshots().map((ss) => 
+		ss.docs.map((doc) => Recipe.fromMapUID(doc.id, doc.data())).toList());
+	}
+	//#endregion
 
 }

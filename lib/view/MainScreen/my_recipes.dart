@@ -1,99 +1,116 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/global.dart';
 import 'package:flutter_app/model/recipe.dart';
+import 'package:flutter_app/model/user_data.dart';
+import 'package:flutter_app/services/database_firestone.dart';
 import 'package:flutter_app/view/Recipes/recipe_edit.dart';
 import 'package:flutter_app/view/Recipes/recipe_vizualizer.dart';
+import 'package:provider/provider.dart';
 
-class MyRecipesWidget extends StatefulWidget {
-	@override
-	State<StatefulWidget> createState() => new MyRecipesWidgetState();
-}
-
-
-class MyRecipesWidgetState extends State<MyRecipesWidget> 
+class MyRecipesWidget extends StatelessWidget
 {
-	final recipes = <Recipe>[];
-
-	@override
-	void initState() {
-		super.initState();
-	}
-
 	@override
 	Widget build(BuildContext context) 
 	{ 
-		return Scaffold(
-			backgroundColor: Colors.transparent,
-			body: SingleChildScrollView(child: Column(children: [
-					listViewRecipesBuild(context, recipes),
-					ElevatedButton(
-						onPressed: () {
-							Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new Recipe())));
-						},
-						child: Icon(Icons.add),
-						style: ElevatedButton.styleFrom(				
-							elevation: 5,
-							primary: Colors.blue[300]
-						),
-					)
-				]))
+		var user = Provider.of<UserData>(context);
+		return StreamProvider<List<Recipe>>.value(
+			initialData: null,
+			value: Database.helper.getRecipeListStream(user),
+			child: Scaffold(
+					backgroundColor: Colors.transparent,
+					body: SingleChildScrollView(
+							child: Column(children: [
+								_RecipeList(),
+								ElevatedButton(
+									onPressed: () => createNewRecipe(context, user),
+									child: Icon(Icons.add),
+									style: ElevatedButton.styleFrom(				
+										elevation: 5,
+										primary: Colors.blue[300]
+									),
+								)
+							])),
+			),
 		);
 	}
 
-	ListView listViewRecipesBuild(BuildContext context, List<Recipe> recipes) => ListView.separated(
-		shrinkWrap: true,
-		padding: const EdgeInsets.all(8),
-		itemCount: recipes.length,
-		separatorBuilder: (BuildContext context, int index) => const Divider(),
-		itemBuilder: (BuildContext context, int index) => Container(
-			padding: EdgeInsets.only(top: 10, left: 10),
-			height: 75,
-			decoration: BoxDecoration(
-				color: Colors.yellow[700],
-				borderRadius: BorderRadius.all(Radius.circular(8.0)),
-			),
-			child: ListTile(
-				leading: ClipRRect(
-					borderRadius: BorderRadius.circular(10.0),
-					child: Image.network(
-						recipes[index].imageUrl, 
-						width: 50, 
-						height: 50,
-						fit: BoxFit.cover, 
-						errorBuilder: imageErrorHandler
+	void createNewRecipe(BuildContext context, UserData user){
+		Recipe recipe = new Recipe(uidAuthor: user.uid);
+		Database.helper.addRecipe(recipe).then((value) => 
+			Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(new Recipe(uidRecipe: value.id))))
+		);
+	}
+
+}
+
+class _RecipeList extends StatelessWidget
+{
+	@override
+	Widget build(BuildContext context) {
+		var recipes = Provider.of<List<Recipe>>(context);
+		if (recipes == null)
+			return Container();
+		return ListView.separated(
+			itemCount: recipes.length,
+			shrinkWrap: true,
+			padding: const EdgeInsets.all(8),
+			separatorBuilder: (BuildContext context, int index) => const Divider(),
+			itemBuilder: (BuildContext context, int index) {
+				return Container(
+						height: 75,
+						padding: EdgeInsets.only(top: 10, left: 10),
+						decoration: BoxDecoration(
+							color: Colors.yellow[700],
+							borderRadius: BorderRadius.all(Radius.circular(8.0)),
+						),
+						child:ListTile(
+							title: Text("${recipes[index].title}", style: TextStyle(fontSize: 24), overflow: TextOverflow.ellipsis),
+							onTap: () => _showRecipeDialog(context, recipes[index]),
+							leading: ClipRRect(
+									borderRadius: BorderRadius.circular(10.0),
+									child: _urlToImage(recipes[index].imageUrl),
+									),
+						),
+				);
+			},
+		);
+	}
+
+	void _showRecipeDialog(BuildContext context, Recipe recipe) => showDialog<void>(
+		context: context,
+		barrierDismissible: true,
+		builder: (context) => AlertDialog(
+				title: Text('Editar ou Vizualizar'),
+				actions: <Widget>[
+					TextButton(
+						child: Text('Vizualizar'),
+						onPressed: () {
+							Navigator.of(context).pop();
+							Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe)));
+						},
 					),
-				),
-				title: Text("${recipes[index].title}", style: TextStyle(fontSize: 24), overflow: TextOverflow.ellipsis),
-				onTap: () => showRecipeDialog(recipes[index]),
-				),
-			),
+					TextButton(
+						child: Text('Editar'),
+						onPressed: () {
+							Navigator.of(context).pop();
+							Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe)));
+						},
+					),
+				],
+		),
 	);
 
-	Future<void> showRecipeDialog(Recipe recipe) 
+	Widget _urlToImage(String imgUrl)
 	{
-		return showDialog<void>(
-			context: context,
-			barrierDismissible: true,
-			builder: (BuildContext context) => AlertDialog(
-					title: Text('Editar ou Vizualizar'),
-					actions: <Widget>[
-						TextButton(
-							child: Text('Vizualizar'),
-							onPressed: () {
-								Navigator.of(context).pop();
-								Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe)));
-							},
-						),
-						TextButton(
-							child: Text('Editar'),
-							onPressed: () {
-								Navigator.of(context).pop();
-								Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeEditScreen(recipe)));
-							},
-						),
-					],
-				),
-		);
+		try {
+			return Image.network(imgUrl, 
+					width: 50, 
+					height: 50,
+					fit: BoxFit.cover, 
+					errorBuilder: imageErrorHandler
+				);
+		} catch (e) {
+			return const Icon(Icons.insert_drive_file, size: 50);
+		}
 	}
-
 }

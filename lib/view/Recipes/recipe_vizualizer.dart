@@ -40,7 +40,13 @@ class RecipeVizualizerScreen extends StatelessWidget
 						Container(
 							padding: const EdgeInsets.all(10.0),
 							alignment: Alignment.centerLeft,
-							child: Text("ID: ${recipe.uidRecipe}"),
+							child: Row(
+							  children: [
+							    Text("ID: ${recipe.uidRecipe}"),
+								SizedBox(width: 10),
+								clipboardButton(context, recipe.uidRecipe),
+							  ],
+							),
 						),
 					],
 				))

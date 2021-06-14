@@ -31,16 +31,15 @@ class Recipe
 		description = map[DESCRIPTION];
 	}
 
-	Map<String, dynamic> toMap(bool addRecipeUID, bool addAuthorUID) {
+	Map<String, dynamic> toMap(bool addRecipeUID) {
 		var map = <String, Object>{
+			AUTOR_UID: uidAuthor,
 			IMAGE_URL: imageUrl,
 			TITLE: title,
 			DESCRIPTION: description, 
 		};
 		if(addRecipeUID)
 			map[RECIPE_UID] = uidRecipe;
-		if(addAuthorUID)
-			map[AUTOR_UID] = uidAuthor;
 		return map;
 	}
 

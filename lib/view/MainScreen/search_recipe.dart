@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/recipe.dart';
+import 'package:flutter_app/services/database_firestone.dart';
 import 'package:flutter_app/view/Recipes/recipe_vizualizer.dart';
 
 class SeacrhRecipesWidget extends StatefulWidget {
@@ -24,7 +25,7 @@ class SeacrhRecipesWidgetState extends State<SeacrhRecipesWidget>
 						margin: EdgeInsets.symmetric(horizontal: 50), 
 						child: TextField(
 								controller: idFieldController,
-								keyboardType: TextInputType.number,
+								keyboardType: TextInputType.text,
 								style: TextStyle(color: Colors.black),
 								decoration: InputDecoration(
 									contentPadding: EdgeInsets.only(top: 15, left: 15),
@@ -49,15 +50,14 @@ class SeacrhRecipesWidgetState extends State<SeacrhRecipesWidget>
 		super.dispose();
 	}
 
-	void findAndOpenRecipe()
+	void findAndOpenRecipe() async
 	{
-		//TODO - GET RECIPE BY ID FROM DB
-		//getRecipeByID(idFieldController.text);
-		var recipe = new Recipe();
+		var recipe = new Recipe(uidRecipe: idFieldController.text);
+		recipe = await Database.helper.getRecipe(recipe);
 		if(recipe != null)
 			Navigator.push(context, MaterialPageRoute(builder: (context) => RecipeVizualizerScreen(recipe)));
 		else
-			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ID não encontrado')));
+			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('ID da receita não encontrado')));
 	}
 
 }

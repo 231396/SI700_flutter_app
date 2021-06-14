@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/recipe.dart';
+import 'package:flutter_app/services/database_firestone.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
 
 class RecipeEditScreen extends StatefulWidget
@@ -9,10 +10,10 @@ class RecipeEditScreen extends StatefulWidget
 	RecipeEditScreen(this.recipe);
 
 	@override
-	RecipeEditScreenState createState() => RecipeEditScreenState(recipe: recipe);
+	_RecipeEditScreenState createState() => _RecipeEditScreenState(recipe: recipe);
 }
 
-class RecipeEditScreenState extends State<RecipeEditScreen>
+class _RecipeEditScreenState extends State<RecipeEditScreen>
 {
 	final formKey = GlobalKey<FormState>();
 
@@ -20,7 +21,7 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 
 	final Recipe recipe;
 
-	RecipeEditScreenState({this.recipe});
+	_RecipeEditScreenState({this.recipe});
 
 	@override
 	Widget build(BuildContext context)
@@ -133,19 +134,18 @@ class RecipeEditScreenState extends State<RecipeEditScreen>
 	{
 		if(formKey.currentState.validate()){
 			formKey.currentState.save();
-			print(recipe);
-			//TODO - SAVE RECIPE IN DB
-			//Database.helper.updateRecipe(uidRecipe, title, imageUrl, description)
-			ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Receita Salva')));
+			Database.helper.updateRecipe(recipe).then((value) =>
+				ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Receita Salva')))
+			);
 		}
 	}
 
-	void removeRecipe()
+	void removeRecipe() async
 	{
-		//TODO - DELETE RECIPE FROM DB
-		ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Remoção Solicitada')));
+		await Database.helper.deleteRecipe(recipe);
+		ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Removido com Sucesso')));
 		Navigator.of(context).pop();
-		Navigator.of(context).pop(true);
+		Navigator.of(context).pop();
 	}
 
 	Future<void> showDeleteDialog() async 
