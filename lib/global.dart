@@ -11,10 +11,26 @@ String basicValidator(String str){
     return null;
 }
 
+bool validURL(String url) => Uri.parse(url).isAbsolute;
+
 bool basicStringValidation(String str) => str == null || str.isEmpty;
 
-Widget imageErrorHandler(BuildContext context, Object exception, StackTrace stackTrace)
-{
-	return const Icon(Icons.insert_drive_file, size: 40);
-	//return const Text('Imagem não pode ser carregada', style: TextStyle(color: Colors.red));
+
+Widget _imgErrorFunc(double width, double height){
+	return SizedBox(		
+		width: width,
+		height: height,
+		child: Icon(Icons.insert_drive_file, size: (width > height ? width : height)/2),
+	);
+}
+
+Widget networkImage(String imgUrl, double width, double height){
+	if(basicStringValidation(imgUrl) || !Uri.parse(imgUrl).isAbsolute)
+		return _imgErrorFunc(width, height);
+	return Image.network(imgUrl,
+		width: width,
+		height: height,
+		fit: BoxFit.cover,
+		errorBuilder: (context, expection, stack) => _imgErrorFunc(width, height),
+	);
 }

@@ -56,10 +56,10 @@ class ProfileWidget extends StatelessWidget
 				margin: EdgeInsets.symmetric(vertical: 6),
 				padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
 				width: 250.0,
-				decoration: new BoxDecoration(
+				decoration: BoxDecoration(
 					color: Colors.white38,
 					shape: BoxShape.rectangle,
-					border: new Border.all(
+					border: Border.all(
 						color: Colors.black,
 						width: 1.0,
 					),

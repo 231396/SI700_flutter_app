@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/recipe.dart';
+import 'package:flutter_app/model/user_data.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
+import 'package:provider/provider.dart';
 
 class RecipeVizualizerScreen extends StatelessWidget
 {
@@ -37,17 +39,7 @@ class RecipeVizualizerScreen extends StatelessWidget
 								style: TextStyle(fontSize: 16.0),
 							),
 						),
-						Container(
-							padding: const EdgeInsets.all(10.0),
-							alignment: Alignment.centerLeft,
-							child: Row(
-							  children: [
-							    Text("ID: ${recipe.uidRecipe}"),
-								SizedBox(width: 10),
-								clipboardButton(context, recipe.uidRecipe),
-							  ],
-							),
-						),
+						uidRecipe(context, recipe.uidRecipe)
 					],
 				))
 			)

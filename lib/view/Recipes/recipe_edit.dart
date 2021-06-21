@@ -29,7 +29,12 @@ class _RecipeEditScreenState extends State<RecipeEditScreen>
 		urlFieldController.text = recipe.imageUrl;
 		return Scaffold(
 			appBar: AppBar(
-				title: Text("Editando Receita"),
+				title: Row(
+				  children: [
+				    Text("Editando Receita"),
+					clipboardButton(context, recipe.uidRecipe),
+				  ],
+				),
 			),
 			body: Container(
 				padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 40.0),
@@ -112,7 +117,7 @@ class _RecipeEditScreenState extends State<RecipeEditScreen>
 									onPressed: showDeleteDialog,
 								),
 							],
-						)
+						),
 					],
 				))
 			))

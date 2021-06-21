@@ -68,7 +68,7 @@ class _RecipeList extends StatelessWidget
 							onTap: () => _showRecipeDialog(context, recipes[index]),
 							leading: ClipRRect(
 									borderRadius: BorderRadius.circular(10.0),
-									child: _urlToImage(recipes[index].imageUrl),
+									child: networkImage(recipes[index].imageUrl, 50, 50),
 									),
 						),
 				);
@@ -99,18 +99,4 @@ class _RecipeList extends StatelessWidget
 				],
 		),
 	);
-
-	Widget _urlToImage(String imgUrl)
-	{
-		try {
-			return Image.network(imgUrl, 
-					width: 50, 
-					height: 50,
-					fit: BoxFit.cover, 
-					errorBuilder: imageErrorHandler
-				);
-		} catch (e) {
-			return const Icon(Icons.insert_drive_file, size: 50);
-		}
-	}
 }
