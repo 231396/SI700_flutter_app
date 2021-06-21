@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/model/recipe.dart';
-import 'package:flutter_app/model/user_data.dart';
 import 'package:flutter_app/view/Recipes/shared.dart';
-import 'package:provider/provider.dart';
 
 class RecipeVizualizerScreen extends StatelessWidget
 {
